@@ -1,0 +1,2313 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নোট পেড - আপনার ডিজিটাল ডায়েরি</title>
+    
+    <!-- Noto Sans Bengali ফন্ট লিংক -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* পূর্বের সব CSS কোড অপরিবর্তিত */
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #f94144;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --card-bg: #ec7263;
+            --card-accent: #efc745;
+            --card-dark: #974859;
+        }
+
+        [data-theme="dark"] {
+            --light: #121212;
+            --dark: #f8f9fa;
+            --gray-light: #2d2d2d;
+            --button-neutral-1: #1e1e1e;
+            --button-neutral-2: #2d2d2d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: var(--transition);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Noto Sans Bengali', sans-serif;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(30deg);
+        }
+
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5px 10px;
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--gray-light);
+            border-radius: var(--border-radius);
+            padding: 5px;
+            margin-bottom: 15px;
+            position: sticky;
+            top: 60px;
+            z-index: 900;
+            backdrop-filter: blur(5px);
+            background: rgba(var(--gray-light-rgb, 233, 236, 239), 0.9);
+        }
+
+        [data-theme="dark"] .tabs {
+            background: rgba(45, 45, 45, 0.9);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: transparent;
+            color: var(--dark);
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .content-area {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .note-creator {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        [data-theme="dark"] .note-creator {
+            background: #1e1e1e;
+        }
+
+        .note-title-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 22px;
+            font-weight: 750;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: var(--dark);
+            font-family: inherit;
+        }
+
+        .note-title-input::placeholder {
+            color: var(--gray);
+            opacity: 0.7;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 5px;
+            padding: 7px 12px;
+            background: var(--gray-light);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+            align-items: center;
+            position: sticky;
+            top: 60px;
+            z-index: 800;
+            backdrop-filter: blur(10px);
+            background: rgba(var(--gray-light-rgb, 233, 236, 239), 0.95);
+        }
+
+        [data-theme="dark"] .editor-toolbar {
+            background: rgba(45, 45, 45, 0.95);
+        }
+
+        .tool-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: none;
+            background: white;
+            color: var(--dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .tool-btn {
+            background: #2d2d2d;
+            color: white;
+        }
+
+        .tool-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        #imageUploadLabel {
+            background: var(--accent);
+            color: white;
+        }
+
+        .save-btn-container {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* এক্সপোর্ট/ব্যাকআপ বাটন */
+        .export-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .export-btn:hover {
+            background: #3ab8d6;
+            transform: translateY(-2px);
+        }
+
+        .save-button {
+            --primary: #4361ee;
+            --neutral-1: #f7f8f7;
+            --neutral-2: #e7e7e7;
+            --radius: 10px;
+
+            cursor: pointer;
+            border-radius: var(--radius);
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+            border: none;
+            box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
+                0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            padding: 18px;
+            height: 60px;
+            font-family: 'Noto Sans Bengali', sans-serif;
+            font-style: normal;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+        }
+
+        [data-theme="dark"] .save-button {
+            --neutral-1: #2d2d2d;
+            --neutral-2: #1e1e1e;
+        }
+
+        .save-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
+        }
+
+        .save-button:active {
+            transform: scale(1);
+            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 10px 3px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .save-button:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            border: 2.5px solid transparent;
+            background: linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45))
+                    border-box;
+            z-index: 0;
+            transition: all 0.4s ease;
+        }
+
+        .save-button:hover::after {
+            transform: scale(1.05, 1.1);
+            box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .save-button::before {
+            content: "";
+            inset: 7px 6px 6px 6px;
+            position: absolute;
+            background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+            border-radius: 30px;
+            filter: blur(0.5px);
+            z-index: 2;
+        }
+
+        /* বাটন স্টেট */
+        .button-state p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button-state .icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            transform: scale(1.25);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: 20px;
+        }
+
+        .button-state .icon svg {
+            overflow: visible;
+        }
+
+        .button-outline {
+            position: absolute;
+            border-radius: inherit;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            inset: -2px -3.5px;
+        }
+
+        .button-outline::before {
+            content: "";
+            position: absolute;
+            inset: -100%;
+            background: conic-gradient(
+                from 180deg,
+                transparent 60%,
+                var(--primary) 80%,
+                transparent 100%
+            );
+            animation: spin 2s linear infinite;
+            animation-play-state: paused;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .save-button:hover .button-outline {
+            opacity: 1;
+        }
+
+        .save-button:hover .button-outline::before {
+            animation-play-state: running;
+        }
+
+        .button-state p span {
+            display: block;
+            opacity: 0;
+            animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+        }
+
+        .save-button:hover p span {
+            opacity: 1;
+            animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
+        }
+
+        .save-button:focus p span {
+            opacity: 1;
+            animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
+        }
+
+        @keyframes wave {
+            30% {
+                opacity: 1;
+                transform: translateY(4px) translateX(0) rotate(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-3px) translateX(0) rotate(0);
+                color: var(--primary);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) rotate(0);
+            }
+        }
+
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) translateX(5px) rotate(-90deg);
+                color: var(--primary);
+                filter: blur(5px);
+            }
+            30% {
+                opacity: 1;
+                transform: translateY(4px) translateX(0) rotate(0);
+                filter: blur(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-3px) translateX(0) rotate(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) rotate(0);
+            }
+        }
+
+        @keyframes disapear {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                transform: translateX(5px) translateY(20px);
+                color: var(--primary);
+                filter: blur(5px);
+            }
+        }
+
+        .state--default .icon svg {
+            animation: land 0.6s ease forwards;
+        }
+
+        .save-button:hover .state--default .icon {
+            transform: rotate(45deg) scale(1.25);
+        }
+
+        .save-button:focus .state--default svg {
+            animation: takeOff 0.8s linear forwards;
+        }
+
+        .save-button:focus .state--default .icon {
+            transform: rotate(0) scale(1.25);
+        }
+
+        @keyframes takeOff {
+            0% {
+                opacity: 1;
+            }
+            60% {
+                opacity: 1;
+                transform: translateX(70px) rotate(45deg) scale(2);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(160px) rotate(45deg) scale(0);
+            }
+        }
+
+        @keyframes land {
+            0% {
+                transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
+                opacity: 0;
+                filter: blur(3px);
+            }
+            100% {
+                transform: translateX(0) translateY(0) rotate(0);
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        .state--default .icon:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            height: 2px;
+            width: 0;
+            left: -5px;
+            background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5));
+        }
+
+        .save-button:focus .state--default .icon:before {
+            animation: contrail 0.8s linear forwards;
+        }
+
+        @keyframes contrail {
+            0% {
+                width: 0;
+                opacity: 1;
+            }
+            8% {
+                width: 15px;
+            }
+            60% {
+                opacity: 0.7;
+                width: 80px;
+            }
+            100% {
+                opacity: 0;
+                width: 160px;
+            }
+        }
+
+        .button-state {
+            padding-left: 35px;
+            z-index: 3;
+            display: flex;
+            position: relative;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .state--default span:nth-child(4) {
+            margin-right: 5px;
+        }
+
+        .state--sent {
+            display: none;
+        }
+
+        .state--sent svg {
+            transform: scale(1.25);
+            margin-right: 8px;
+        }
+
+        .save-button:focus .state--default {
+            position: absolute;
+        }
+
+        .save-button:focus .state--sent {
+            display: flex;
+        }
+
+        .save-button:focus .state--sent span {
+            opacity: 0;
+            animation: slideDown 0.8s ease forwards calc(var(--i) * 0.2s);
+        }
+
+        .save-button:focus .state--sent .icon svg {
+            opacity: 0;
+            animation: appear 1.2s ease forwards 0.8s;
+        }
+
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                transform: scale(4) rotate(-40deg);
+                color: var(--primary);
+                filter: blur(4px);
+            }
+            30% {
+                opacity: 1;
+                transform: scale(0.6);
+                filter: blur(1px);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+                filter: blur(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .save-text, .update-text {
+            color: var(--dark);
+            z-index: 3;
+            position: relative;
+        }
+
+        [data-theme="dark"] .save-text,
+        [data-theme="dark"] .update-text {
+            color: white;
+        }
+
+        .note-editor {
+            min-height: 400px;
+            padding: 25px;
+            outline: none;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--dark);
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .note-editor:empty:before {
+            content: attr(placeholder);
+            color: var(--gray);
+            opacity: 0.7;
+        }
+
+        .image-preview-container {
+            display: flex;
+            gap: 15px;
+            padding: 15px 25px;
+            background: var(--gray-light);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+            display: none;
+        }
+
+        .image-preview-container.show {
+            display: flex;
+        }
+
+        .preview-thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .preview-thumb:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            position: sticky;
+            top: 140px;
+            z-index: 800;
+            background: var(--light);
+            padding: 15px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--gray-light);
+            background: var(--gray-light);
+            color: var(--dark);
+            font-size: 16px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .note-card {
+            display: flex;
+            flex-direction: column;
+            height: 200px;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .note-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            filter: brightness(0.7);
+            transition: filter 0.3s ease;
+        }
+
+        .note-card:hover .card-background {
+            filter: brightness(0.9);
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            z-index: 1;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            color: white;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 10px;
+            max-width: 70%;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .card-date {
+            font-size: 14px;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            text-align: right;
+        }
+
+        .card-time {
+            font-size: 12px;
+            opacity: 0.8;
+            text-align: right;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: auto;
+        }
+
+        .card-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .card-action-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .share-button-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .share-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            width: 200px;
+        }
+
+        .share-tooltip::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px;
+            border-style: solid;
+            border-color: rgba(30, 30, 30, 0.95) transparent transparent transparent;
+        }
+
+        .share-button-container:hover .share-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .social-icon.facebook:hover {
+            background: #1877f2;
+        }
+
+        .social-icon.email:hover {
+            background: #ea4335;
+        }
+
+        .social-icon.linkedin:hover {
+            background: #0077b5;
+        }
+
+        .social-icon.whatsapp:hover {
+            background: #25d366;
+        }
+
+        /* এক্সপোর্ট বাটন ক্লাস */
+        .export-icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .export-icon-btn:hover {
+            background: var(--success);
+            transform: translateY(-2px);
+        }
+
+        .note-reader {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        [data-theme="dark"] .note-reader {
+            background: #1e1e1e;
+        }
+
+        .read-note-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+            line-height: 1.3;
+        }
+
+        .read-note-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--gray-light);
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        .read-note-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .read-note-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .reader-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid var(--gray-light);
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-edit {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-back {
+            background: var(--gray);
+            color: white;
+        }
+
+        /* এক্সপোর্ট একশন বাটন */
+        .btn-export {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-export:hover {
+            background: #3ab8d6;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* সেটিংস মেনু */
+        .settings-menu {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 15px;
+            z-index: 1000;
+            display: none;
+            min-width: 200px;
+        }
+
+        [data-theme="dark"] .settings-menu {
+            background: #1e1e1e;
+        }
+
+        .settings-menu.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .settings-item {
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            margin-bottom: 5px;
+        }
+
+        .settings-item:hover {
+            background: var(--gray-light);
+        }
+
+        .settings-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                top: 140px;
+            }
+            
+            .editor-toolbar {
+                top: 200px;
+            }
+            
+            .search-container {
+                top: 200px;
+            }
+            
+            .notes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .note-reader {
+                padding: 25px;
+            }
+            
+            .read-note-title {
+                font-size: 28px;
+            }
+            
+            .reader-actions {
+                flex-direction: column;
+            }
+            
+            .save-button {
+                min-width: 150px;
+                height: 55px;
+                padding: 15px;
+                font-size: 14px;
+            }
+            
+            .button-state .icon {
+                left: 15px;
+                transform: scale(1.1);
+            }
+            
+            .note-card {
+                height: 180px;
+            }
+            
+            .card-title {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .note-title-input {
+                font-size: 20px;
+                padding: 20px;
+            }
+            
+            .note-editor {
+                padding: 20px;
+                font-size: 16px;
+            }
+            
+            .save-button {
+                min-width: 120px;
+                height: 50px;
+                padding: 12px;
+                font-size: 13px;
+            }
+            
+            .button-state {
+                padding-left: 30px;
+            }
+            
+            .button-state .icon {
+                left: 10px;
+                transform: scale(1);
+            }
+            
+            .note-card {
+                height: 160px;
+            }
+            
+            .card-title {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-book"></i>
+                <span>নোট পেড</span>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button class="export-btn" id="exportAllBtn" title="সব নোট ব্যাকআপ করুন">
+                    <i class="fas fa-download"></i>
+                    ব্যাকআপ
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="tabs-container">
+        <div class="tabs">
+            <button class="tab-btn active" data-target="createPage">
+                <i class="fas fa-plus-circle"></i>
+                নতুন নোট
+            </button>
+            <button class="tab-btn" data-target="notesPage">
+                <i class="fas fa-list"></i>
+                সব নোট
+            </button>
+            <button class="tab-btn" data-target="readPage">
+                <i class="fas fa-book-reader"></i>
+                পড়ুন
+            </button>
+        </div>
+    </div>
+    
+    <div class="content-area">
+        
+        <div class="page active" id="createPage">
+            <div class="note-creator">
+                <input type="text" class="note-title-input" id="noteTitle" placeholder="নোটের শিরোনাম লিখুন...">
+                
+                <div class="image-preview-container" id="imagePreviewContainer"></div>
+                
+                <div class="editor-toolbar">
+                    <button class="tool-btn" onclick="formatText('bold')" title="বোল্ড">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button class="tool-btn" onclick="formatText('italic')" title="ইটালিক">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button class="tool-btn" onclick="formatText('underline')" title="আন্ডারলাইন">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                    <button class="tool-btn" onclick="insertBulletList()" title="বুলেট লিস্ট">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button class="tool-btn" onclick="insertNumberedList()" title="নাম্বার লিস্ট">
+                        <i class="fas fa-list-ol"></i>
+                    </button>
+                    
+                    <label for="imageUpload" class="tool-btn" id="imageUploadLabel" title="ছবি যোগ করুন">
+                        <i class="fas fa-image"></i>
+                    </label>
+                    <input type="file" id="imageUpload" accept="image/*" multiple style="display: none;">
+                    
+                    <div class="save-btn-container">
+                        <button class="export-btn" id="importBtn" title="নোট ইমপোর্ট করুন">
+                            <i class="fas fa-upload"></i>
+                            ইমপোর্ট
+                        </button>
+                        <input type="file" id="importFile" accept=".json,.html,.txt" style="display: none;">
+                        <button class="save-button" id="saveNoteBtn">
+                            <div class="button-outline"></div>
+                            <div class="button-state state--default">
+                                <div class="icon">
+                                    <svg
+                                        width="1em"
+                                        height="1em"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <g style="filter: url(#shadow)">
+                                            <path
+                                                d="M14.2199 21.63C13.0399 21.63 11.3699 20.8 10.0499 16.83L9.32988 14.67L7.16988 13.95C3.20988 12.63 2.37988 10.96 2.37988 9.78001C2.37988 8.61001 3.20988 6.93001 7.16988 5.60001L15.6599 2.77001C17.7799 2.06001 19.5499 2.27001 20.6399 3.35001C21.7299 4.43001 21.9399 6.21001 21.2299 8.33001L18.3999 16.82C17.0699 20.8 15.3999 21.63 14.2199 21.63ZM7.63988 7.03001C4.85988 7.96001 3.86988 9.06001 3.86988 9.78001C3.86988 10.5 4.85988 11.6 7.63988 12.52L10.1599 13.36C10.3799 13.43 10.5599 13.61 10.6299 13.83L11.4699 16.35C12.3899 19.13 13.4999 20.12 14.2199 20.12C14.9399 20.12 16.0399 19.13 16.9699 16.35L19.7999 7.86001C20.3099 6.32001 20.2199 5.06001 19.5699 4.41001C18.9199 3.76001 17.6599 3.68001 16.1299 4.19001L7.63988 7.03001Z"
+                                                fill="currentColor"
+                                            ></path>
+                                            <path
+                                                d="M10.11 14.4C9.92005 14.4 9.73005 14.33 9.58005 14.18C9.29005 13.89 9.29005 13.41 9.58005 13.12L13.16 9.53C13.45 9.24 13.93 9.24 14.22 9.53C14.51 9.82 14.51 10.3 14.22 10.59L10.64 14.18C10.5 14.33 10.3 14.4 10.11 14.4Z"
+                                                fill="currentColor"
+                                            ></path>
+                                        </g>
+                                        <defs>
+                                            <filter id="shadow">
+                                                <fedropshadow
+                                                    dx="0"
+                                                    dy="1"
+                                                    stdDeviation="0.6"
+                                                    flood-opacity="0.5"
+                                                ></fedropshadow>
+                                            </filter>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <p class="save-text">
+                                    <span style="--i:0">সে</span>
+                                    <span style="--i:1"></span>
+                                    <span style="--i:2">ভ</span>
+                                </p>
+                            </div>
+                            <div class="button-state state--sent">
+                                <div class="icon">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        height="1em"
+                                        width="1em"
+                                        stroke-width="0.5px"
+                                        stroke="black"
+                                    >
+                                        <g style="filter: url(#shadow)">
+                                            <path
+                                                fill="currentColor"
+                                                d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75ZM12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75Z"
+                                            ></path>
+                                            <path
+                                                fill="currentColor"
+                                                d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z"
+                                            ></path>
+                                        </g>
+                                    </svg>
+                                </div>
+                               <p class="update-text"> 
+                                    <span style="--i:5">স</span> 
+                                    <span style="--i:6">ে</span> 
+                                    <span style="--i:7">ভ</span> 
+                                </p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="note-editor" id="noteEditor" contenteditable="true" placeholder="আপনার নোট এখানে লিখুন..."></div>
+            </div>
+        </div>
+        
+        <div class="page" id="notesPage">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="নোট খুঁজুন...">
+            </div>
+            
+            <div class="notes-grid" id="notesContainer"></div>
+            
+            <div class="empty-state" id="emptyNotesState" style="display: none;">
+                <i class="fas fa-sticky-note"></i>
+                <h3>কোন নোট নেই</h3>
+                <p>এখনো কোন নোট তৈরি করা হয়নি। নতুন নোট তৈরি করতে "নতুন নোট" ট্যাবে ক্লিক করুন।</p>
+            </div>
+        </div>
+        
+        <div class="page" id="readPage">
+            <div class="note-reader" id="noteReader">
+                <div class="empty-state" id="emptyReaderState">
+                    <i class="fas fa-book-open"></i>
+                    <h3>নোট নির্বাচন করুন</h3>
+                    <p>নোট পড়তে "সব নোট" ট্যাব থেকে একটি নোট সিলেক্ট করুন।</p>
+                </div>
+                
+                <div id="noteContent" style="display: none;">
+                    <h1 class="read-note-title" id="readNoteTitle"></h1>
+                    
+                    <div class="read-note-meta">
+                        <span id="readNoteDate"></span>
+                        <span id="readNoteTime"></span>
+                    </div>
+                    
+                    <div class="read-note-content" id="readNoteContent"></div>
+                    
+                    <div class="reader-actions">
+                        <button class="action-btn btn-export" id="exportNoteBtn">
+                            <i class="fas fa-download"></i>
+                            এক্সপোর্ট
+                        </button>
+                        <button class="action-btn btn-edit" id="editNoteBtn">
+                            <i class="fas fa-edit"></i>
+                            এডিট করুন
+                        </button>
+                        <button class="action-btn btn-delete" id="deleteNoteBtn">
+                            <i class="fas fa-trash"></i>
+                            ডিলিট করুন
+                        </button>
+                        <button class="action-btn btn-back" id="backToNotesBtn">
+                            <i class="fas fa-arrow-left"></i>
+                            নোটসে ফিরে যান
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="modal" id="imageModal">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img class="modal-img" id="modalImage" src="" alt="বড় ছবি">
+    </div>
+    
+    <script>
+        // থিম টগল
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            localStorage.setItem('notePadTheme', newTheme);
+        });
+        
+        const savedTheme = localStorage.getItem('notePadTheme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        themeToggle.querySelector('i').className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        // ট্যাব নেভিগেশন
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const pages = document.querySelectorAll('.page');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const targetPage = btn.getAttribute('data-target');
+                pages.forEach(page => {
+                    page.classList.remove('active');
+                    if (page.id === targetPage) {
+                        page.classList.add('active');
+                    }
+                });
+                
+                if (targetPage === 'notesPage') {
+                    renderNotes();
+                }
+            });
+        });
+        
+        // নোট এডিটর ফরম্যাটিং
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('noteEditor').focus();
+        }
+        
+        function insertBulletList() {
+            document.execCommand('insertUnorderedList', false, null);
+            document.getElementById('noteEditor').focus();
+        }
+        
+        function insertNumberedList() {
+            document.execCommand('insertOrderedList', false, null);
+            document.getElementById('noteEditor').focus();
+        }
+
+        // ছবি কম্প্রেশন ফাংশন
+        function compressImage(file, maxWidth = 800, quality = 0.7) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > maxWidth) {
+                            height = (height * maxWidth) / width;
+                            width = maxWidth;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                        resolve(compressedDataUrl);
+                    };
+                };
+            });
+        }
+
+        // ইমেজ আপলোড হ্যান্ডলিং (কম্প্রেশন সহ)
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+        
+        imageUpload.addEventListener('change', async function(e) {
+            const files = e.target.files;
+            
+            if (files.length > 0) {
+                imagePreviewContainer.classList.add('show');
+                
+                for (let file of files) {
+                    try {
+                        const compressedImage = await compressImage(file);
+                        
+                        const thumb = document.createElement('img');
+                        thumb.className = 'preview-thumb';
+                        thumb.src = compressedImage;
+                        thumb.onclick = () => openModal(compressedImage);
+                        
+                        imagePreviewContainer.appendChild(thumb);
+                        
+                        const imgElement = `<img src="${compressedImage}" style="max-width: 100%; border-radius: 10px; margin: 10px 0;" alt="নোট ছবি">`;
+                        document.getElementById('noteEditor').focus();
+                        document.execCommand('insertHTML', false, imgElement);
+                    } catch (error) {
+                        console.error('Image compression error:', error);
+                    }
+                }
+            }
+        });
+        
+        // মোডাল ফাংশন
+        function openModal(imgSrc) {
+            document.getElementById('modalImage').src = imgSrc;
+            document.getElementById('imageModal').classList.add('show');
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('show');
+        }
+        
+        // নোট ম্যানেজমেন্ট
+        let notes = [];
+        try {
+            const savedNotes = localStorage.getItem('notePadNotes');
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+            }
+        } catch (e) {
+            console.error('নোট লোড করতে সমস্যা:', e);
+            notes = [];
+        }
+        
+        let currentNoteIndex = null;
+        
+        // সেভ বাটন এনিমেশন হ্যান্ডলিং
+        const saveButton = document.getElementById('saveNoteBtn');
+        let isSaving = false;
+        
+        // সেভ বাটন ইভেন্ট
+        saveButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (isSaving) return;
+            
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteEditor').innerHTML.trim();
+            
+            if (!title) {
+                alert('দয়া করে নোটের শিরোনাম দিন');
+                document.getElementById('noteTitle').focus();
+                return;
+            }
+            
+            if (!content || content === '<br>' || content === '<div><br></div>') {
+                alert('দয়া করে নোটের বিষয়বস্তু লিখুন');
+                document.getElementById('noteEditor').focus();
+                return;
+            }
+            
+            isSaving = true;
+            
+            this.focus();
+            
+            setTimeout(() => {
+                let success = false;
+                
+                if (currentNoteIndex !== null) {
+                    success = updateNote();
+                } else {
+                    success = saveNote();
+                }
+                
+                if (success) {
+                    setTimeout(() => {
+                        this.blur();
+                        isSaving = false;
+                    }, 1500);
+                } else {
+                    this.blur();
+                    isSaving = false;
+                }
+            }, 800);
+        });
+        
+        // নোট সেভ
+        function saveNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteEditor').innerHTML.trim();
+            
+            const now = new Date();
+            const noteDate = now.toLocaleDateString('bn-BD', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            const noteTime = now.toLocaleTimeString('bn-BD', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            
+            const noteDateTime = now.toISOString();
+            
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            const images = tempDiv.querySelectorAll('img');
+            const imageSrc = images.length > 0 ? images[0].src : '';
+            
+            const italicElements = tempDiv.querySelectorAll('i, em');
+            let italicNotes = [];
+            
+            italicElements.forEach(el => {
+                const text = el.textContent.trim();
+                if (text !== '' && text.length > 0) {
+                    italicNotes.push(text);
+                }
+            });
+            
+            const note = {
+                id: Date.now(),
+                title: title,
+                content: content,
+                date: noteDate,
+                time: noteTime,
+                dateTime: noteDateTime,
+                imageSrc: imageSrc,
+                italicNotes: italicNotes
+            };
+            
+            notes.unshift(note);
+            
+            try {
+                localStorage.setItem('notePadNotes', JSON.stringify(notes));
+                console.log('নোট সেভ হয়েছে:', note);
+            } catch (e) {
+                console.error('লোকাল স্টোরেজে সেভ করতে সমস্যা:', e);
+                alert('নোট সেভ করতে সমস্যা হচ্ছে। ব্রাউজারের সেটিংস চেক করুন।');
+                return false;
+            }
+            
+            resetForm();
+            
+            setTimeout(() => {
+                document.querySelector('[data-target="notesPage"]').click();
+            }, 500);
+            
+            return true;
+        }
+        
+        function resetForm() {
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteEditor').innerHTML = '';
+            imagePreviewContainer.innerHTML = '';
+            imagePreviewContainer.classList.remove('show');
+            document.getElementById('imageUpload').value = '';
+            currentNoteIndex = null;
+            
+            const saveText = document.querySelector('.save-text');
+            const updateText = document.querySelector('.update-text');
+            
+            saveText.innerHTML = `
+                <span style="--i:0">স</span>
+                <span style="--i:1">ে</span>
+                <span style="--i:2">ভ</span>
+            `;
+            
+            updateText.innerHTML = `
+                <span style="--i:5">স</span>
+                <span style="--i:6">ে</span>
+                <span style="--i:7">ভ</span>
+            `;
+        }
+        
+        // নোট রেন্ডার
+        function renderNotes(filter = '') {
+            const notesContainer = document.getElementById('notesContainer');
+            const emptyState = document.getElementById('emptyNotesState');
+            
+            if (!notesContainer) {
+                console.error('notesContainer খুঁজে পাওয়া যাচ্ছে না!');
+                return;
+            }
+            
+            const filteredNotes = notes.filter(note => {
+                if (!note || !note.title) return false;
+                
+                if (!filter) return true;
+                
+                const searchTerm = filter.toLowerCase();
+                const title = (note.title || '').toLowerCase();
+                const content = (note.content || '').replace(/<[^>]*>/g, '').toLowerCase();
+                
+                return title.includes(searchTerm) || content.includes(searchTerm);
+            });
+            
+            if (filteredNotes.length === 0) {
+                notesContainer.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            notesContainer.innerHTML = '';
+            
+            filteredNotes.forEach((note, index) => {
+                const originalIndex = notes.findIndex(n => n.id === note.id);
+                const displayIndex = originalIndex !== -1 ? originalIndex : index;
+                
+                const card = document.createElement('div');
+                card.className = 'note-card';
+                card.setAttribute('data-index', displayIndex);
+                
+                let backgroundImage = note.imageSrc || '';
+                
+                let backgroundStyle = '';
+                if (backgroundImage) {
+                    backgroundStyle = `background-image: url('${backgroundImage}');`;
+                } else {
+                    const gradients = [
+                        'linear-gradient(135deg, #4361ee, #3a0ca3)',
+                        'linear-gradient(135deg, #f72585, #b5179e)',
+                        'linear-gradient(135deg, #4cc9f0, #4895ef)',
+                        'linear-gradient(135deg, #f8961e, #f3722c)',
+                        'linear-gradient(135deg, #43e97b, #38f9d7)'
+                    ];
+                    const randomGradient = gradients[note.id % gradients.length];
+                    backgroundStyle = `background: ${randomGradient};`;
+                }
+                
+                card.innerHTML = `
+                    ${backgroundImage ? `<img class="card-background" src="${backgroundImage}" alt="নোট ছবি">` : ''}
+                    <div class="card-overlay"></div>
+                    <div class="card-content">
+                        <div class="card-top">
+                            <h3 class="card-title">${note.title}</h3>
+                            <div class="card-date-time">
+                                <div class="card-date">${note.date}</div>
+                                <div class="card-time">${note.time}</div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <div class="share-button-container">
+                                <button class="card-action-btn share-btn" onclick="event.stopPropagation(); shareNote(${displayIndex})" title="শেয়ার করুন">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <div class="share-tooltip">
+                                    <div class="social-icons">
+                                        <a href="#" class="social-icon facebook" onclick="event.stopPropagation(); shareToFacebook(${displayIndex})">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                        <a href="#" class="social-icon email" onclick="event.stopPropagation(); shareToEmail(${displayIndex})">
+                                            <i class="fas fa-envelope"></i>
+                                        </a>
+                                        <a href="#" class="social-icon linkedin" onclick="event.stopPropagation(); shareToLinkedIn(${displayIndex})">
+                                            <i class="fab fa-linkedin-in"></i>
+                                        </a>
+                                        <a href="#" class="social-icon whatsapp" onclick="event.stopPropagation(); shareToWhatsApp(${displayIndex})">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="export-icon-btn" onclick="event.stopPropagation(); exportSingleNote(${displayIndex})" title="এক্সপোর্ট করুন">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="card-action-btn" onclick="event.stopPropagation(); editNote(${displayIndex})" title="এডিট করুন">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="card-action-btn" onclick="event.stopPropagation(); deleteNote(${displayIndex})" title="ডিলিট করুন">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                if (!backgroundImage) {
+                    card.style = backgroundStyle;
+                }
+                
+                card.addEventListener('click', () => viewNote(displayIndex));
+                
+                notesContainer.appendChild(card);
+            });
+        }
+        
+        // সার্চ ফাংশন
+        document.getElementById('searchInput').addEventListener('input', function() {
+            renderNotes(this.value);
+        });
+        
+        // নোট দেখা
+        function viewNote(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            const note = notes[index];
+            currentNoteIndex = index;
+            
+            document.getElementById('readNoteTitle').textContent = note.title;
+            document.getElementById('readNoteDate').textContent = note.date;
+            document.getElementById('readNoteTime').textContent = note.time;
+            
+            document.getElementById('readNoteContent').innerHTML = note.content;
+            
+            document.getElementById('emptyReaderState').style.display = 'none';
+            document.getElementById('noteContent').style.display = 'block';
+            
+            document.querySelector('[data-target="readPage"]').click();
+        }
+        
+        // এক্সপোর্ট ফাংশনসমূহ
+
+        // ১. একটি নোট এক্সপোর্ট (HTML ফরমেটে)
+        function exportSingleNote(index) {
+            if (index < 0 || index >= notes.length) {
+                alert('নোট খুঁজে পাওয়া যায়নি!');
+                return;
+            }
+            
+            const note = notes[index];
+            
+            // HTML কন্টেন্ট তৈরি
+            const htmlContent = `
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${note.title} - নোট পেড</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #212529;
+        }
+        .note-container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        .note-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #4361ee;
+        }
+        .note-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            color: #6c757d;
+        }
+        .note-content {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .note-content img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="note-container">
+        <h1 class="note-title">${note.title}</h1>
+        
+        <div class="note-meta">
+            <span>তারিখ: ${note.date}</span>
+            <span>সময়: ${note.time}</span>
+        </div>
+        
+        <div class="note-content">
+            ${note.content}
+        </div>
+        
+        <div class="footer">
+            <p>নোট পেড থেকে এক্সপোর্ট করা হয়েছে</p>
+            <p>${new Date().toLocaleDateString('bn-BD')} ${new Date().toLocaleTimeString('bn-BD')}</p>
+        </div>
+    </div>
+</body>
+</html>`;
+            
+            // ফাইল ডাউনলোড
+            downloadFile(htmlContent, `${note.title}.html`, 'text/html');
+        }
+
+        // ২. সব নোট এক্সপোর্ট (JSON ফরমেটে - ব্যাকআপ)
+        function exportAllNotes() {
+            if (notes.length === 0) {
+                alert('কোন নোট নেই এক্সপোর্ট করার জন্য!');
+                return;
+            }
+            
+            const backupData = {
+                appName: 'নোট পেড',
+                exportDate: new Date().toISOString(),
+                totalNotes: notes.length,
+                notes: notes
+            };
+            
+            const jsonContent = JSON.stringify(backupData, null, 2);
+            const date = new Date().toISOString().split('T')[0];
+            downloadFile(jsonContent, `notepad-backup-${date}.json`, 'application/json');
+        }
+
+        // ৩. ইমপোর্ট ফাংশন (JSON ব্যাকআপ থেকে)
+        function importNotes(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (!importedData.notes || !Array.isArray(importedData.notes)) {
+                        alert('ভুল ফরমেটের ফাইল!');
+                        return;
+                    }
+                    
+                    if (confirm(`আপনি ${importedData.notes.length}টি নোট ইমপোর্ট করতে চলেছেন। আপনি কি নিশ্চিত?`)) {
+                        // পুরোনো নোটের সাথে নতুন নোট যোগ করুন
+                        notes = [...importedData.notes, ...notes];
+                        
+                        // লোকাল স্টোরেজে সেভ করুন
+                        localStorage.setItem('notePadNotes', JSON.stringify(notes));
+                        
+                        // রিফ্রেশ করুন
+                        renderNotes();
+                        alert(`${importedData.notes.length}টি নোট সফলভাবে ইমপোর্ট হয়েছে!`);
+                    }
+                } catch (error) {
+                    console.error('Import error:', error);
+                    alert('ফাইল প্যার্স করতে সমস্যা হচ্ছে!');
+                }
+                
+                // ফাইল ইনপুট রিসেট
+                event.target.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // ৪. সার্ভিস ফাংশন - ফাইল ডাউনলোড
+        function downloadFile(content, fileName, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ইভেন্ট লিস্টেনার যোগ করুন
+        document.getElementById('exportAllBtn').addEventListener('click', exportAllNotes);
+        document.getElementById('exportNoteBtn').addEventListener('click', () => {
+            if (currentNoteIndex !== null) {
+                exportSingleNote(currentNoteIndex);
+            } else {
+                alert('প্রথমে একটি নোট সিলেক্ট করুন!');
+            }
+        });
+        
+        document.getElementById('importBtn').addEventListener('click', () => {
+            document.getElementById('importFile').click();
+        });
+        
+        document.getElementById('importFile').addEventListener('change', importNotes);
+
+        // শেয়ার ফাংশন
+        function shareNote(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            const note = notes[index];
+            const text = `নোট: ${note.title}\n\n${note.content.replace(/<[^>]*>/g, '').substring(0, 100)}...`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: note.title,
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('নোট লিংক কপি করা হয়েছে!');
+            }
+        }
+        
+        function shareToFacebook(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            const note = notes[index];
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(`নোট: ${note.title}`);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
+        }
+        
+        function shareToEmail(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            const note = notes[index];
+            const emailSubject = `নোট: ${note.title}`;
+            const emailBody = `
+নোট শিরোনাম: ${note.title}
+
+তারিখ: ${note.date}
+সময়: ${note.time}
+
+বিষয়বস্তু:
+${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
+
+---
+নোট পেড থেকে প্রেরিত
+            `.trim();
+            
+            window.open(`mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`, '_blank');
+        }
+        
+        function shareToLinkedIn(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            const note = notes[index];
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+        }
+        
+        function shareToWhatsApp(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            const note = notes[index];
+            const text = encodeURIComponent(`নোট: ${note.title}\n\n${note.content.replace(/<[^>]*>/g, '').substring(0, 100)}...`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+        
+        // নোট এডিট
+        function editNote(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            const note = notes[index];
+            currentNoteIndex = index;
+            
+            document.getElementById('noteTitle').value = note.title;
+            document.getElementById('noteEditor').innerHTML = note.content;
+            
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = note.content;
+            const images = tempDiv.querySelectorAll('img');
+            
+            if (images.length > 0) {
+                imagePreviewContainer.classList.add('show');
+                imagePreviewContainer.innerHTML = '';
+                images.forEach(img => {
+                    if (img.src) {
+                        const thumb = document.createElement('img');
+                        thumb.className = 'preview-thumb';
+                        thumb.src = img.src;
+                        thumb.onclick = () => openModal(img.src);
+                        imagePreviewContainer.appendChild(thumb);
+                    }
+                });
+            }
+            
+            const saveText = document.querySelector('.save-text');
+            const updateText = document.querySelector('.update-text');
+            
+            saveText.innerHTML = `
+                <span style="--i:0">আ</span>
+                <span style="--i:1">প</span>
+                <span style="--i:2">ড</span>
+                <span style="--i:3">ে</span>
+                <span style="--i:4">ট</span>
+            `;
+            
+            updateText.innerHTML = `
+                <span style="--i:5">আ</span>
+                <span style="--i:6">প</span>
+                <span style="--i:7">ড</span>
+                <span style="--i:8">ে</span>
+                <span style="--i:9">ট</span>
+            `;
+            
+            document.querySelector('[data-target="createPage"]').click();
+        }
+        
+        // নোট আপডেট
+        function updateNote() {
+            if (currentNoteIndex === null || currentNoteIndex < 0 || currentNoteIndex >= notes.length) return false;
+            
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteEditor').innerHTML.trim();
+            
+            if (!title || !content || content === '<br>' || content === '<div><br></div>') {
+                alert('শিরোনাম এবং বিষয়বস্তু প্রয়োজন');
+                return false;
+            }
+            
+            const now = new Date();
+            const noteDate = now.toLocaleDateString('bn-BD', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            const noteTime = now.toLocaleTimeString('bn-BD', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+            
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            const images = tempDiv.querySelectorAll('img');
+            const imageSrc = images.length > 0 ? images[0].src : '';
+            
+            const italicElements = tempDiv.querySelectorAll('i, em');
+            let italicNotes = [];
+            
+            italicElements.forEach(el => {
+                const text = el.textContent.trim();
+                if (text !== '' && text.length > 0) {
+                    italicNotes.push(text);
+                }
+            });
+            
+            notes[currentNoteIndex] = {
+                ...notes[currentNoteIndex],
+                title: title,
+                content: content,
+                date: noteDate,
+                time: noteTime,
+                dateTime: now.toISOString(),
+                imageSrc: imageSrc,
+                italicNotes: italicNotes
+            };
+            
+            try {
+                localStorage.setItem('notePadNotes', JSON.stringify(notes));
+            } catch (e) {
+                console.error('লোকাল স্টোরেজ আপডেট করতে সমস্যা:', e);
+                alert('নোট আপডেট করতে সমস্যা হচ্ছে।');
+                return false;
+            }
+            
+            resetForm();
+            
+            setTimeout(() => {
+                document.querySelector('[data-target="notesPage"]').click();
+            }, 500);
+            
+            currentNoteIndex = null;
+            return true;
+        }
+        
+        // নোট ডিলিট
+        function deleteNote(index) {
+            if (index < 0 || index >= notes.length) return;
+            
+            if (confirm('আপনি কি এই নোটটি ডিলিট করতে চান?')) {
+                notes.splice(index, 1);
+                try {
+                    localStorage.setItem('notePadNotes', JSON.stringify(notes));
+                } catch (e) {
+                    console.error('লোকাল স্টোরেজ আপডেট করতে সমস্যা:', e);
+                }
+                renderNotes();
+                
+                if (currentNoteIndex === index) {
+                    document.getElementById('emptyReaderState').style.display = 'block';
+                    document.getElementById('noteContent').style.display = 'none';
+                    currentNoteIndex = null;
+                }
+            }
+        }
+        
+        // রিডার পেজ বাটন ইভেন্ট
+        document.getElementById('editNoteBtn').addEventListener('click', () => {
+            if (currentNoteIndex !== null) {
+                editNote(currentNoteIndex);
+            }
+        });
+        
+        document.getElementById('deleteNoteBtn').addEventListener('click', () => {
+            if (currentNoteIndex !== null) {
+                deleteNote(currentNoteIndex);
+            }
+        });
+        
+        document.getElementById('backToNotesBtn').addEventListener('click', () => {
+            document.querySelector('[data-target="notesPage"]').click();
+        });
+        
+        // অ্যাপ ইনিশিয়ালাইজেশন
+        function initApp() {
+            renderNotes();
+            
+            if (notes.length > 0) {
+                document.getElementById('emptyReaderState').style.display = 'none';
+            }
+        }
+        
+        // অ্যাপ শুরু
+        initApp();
+        
+        // ট্রিপল ক্লিক থিম টগল
+        let clickCount = 0;
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.theme-toggle')) return;
+            
+            clickCount++;
+            setTimeout(() => {
+                clickCount = 0;
+            }, 500);
+            
+            if (clickCount === 3) {
+                themeToggle.click();
+            }
+        });
+        
+        // এসকেপ কি প্রেসে মোডাল বন্ধ
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
