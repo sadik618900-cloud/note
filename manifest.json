@@ -1,7 +1,8 @@
 {
   "name": "notebook",
   "short_name": "notebook",
-  "start_url": "index.html",
+  "start_url": "/note/",
+  "scope": "/note/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",
