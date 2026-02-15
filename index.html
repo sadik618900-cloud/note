@@ -6,45 +6,48 @@
     <title>নোট পেড - আপনার ডিজিটাল ডায়েরি</title>
     
     <!-- Noto Sans Bengali ফন্ট লিংক -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* পূর্বের সব CSS কোড অপরিবর্তিত */
         :root {
-            --primary: #4361ee;
-            --primary-light: #4895ef;
-            --secondary: #3a0ca3;
-            --accent: #f72585;
-            --success: #4cc9f0;
-            --warning: #f8961e;
-            --danger: #f94144;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --gray-light: #e9ecef;
-            --border-radius: 12px;
-            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --secondary: #10344b;
+            --accent: #c08a2f;
+            --success: #1f9d78;
+            --warning: #d97706;
+            --danger: #dc2626;
+            --light: #f3f5f8;
+            --dark: #10212e;
+            --gray: #5b6b78;
+            --gray-light: #dce3ea;
+            --border-radius: 16px;
+            --box-shadow: 0 20px 45px rgba(15, 35, 55, 0.12);
+            --transition: all 0.28s ease;
             --card-bg: #ec7263;
             --card-accent: #efc745;
             --card-dark: #974859;
-            --surface: rgba(255, 255, 255, 0.86);
-            --surface-border: rgba(255, 255, 255, 0.6);
-            --hero-glow-1: rgba(67, 97, 238, 0.22);
-            --hero-glow-2: rgba(247, 37, 133, 0.2);
+            --surface: rgba(255, 255, 255, 0.82);
+            --surface-border: rgba(255, 255, 255, 0.72);
+            --hero-glow-1: rgba(15, 118, 110, 0.22);
+            --hero-glow-2: rgba(192, 138, 47, 0.2);
+            --header-height: 74px;
+            --tabs-height: 64px;
         }
 
         [data-theme="dark"] {
-            --light: #121212;
-            --dark: #f8f9fa;
-            --gray-light: #2d2d2d;
+            --light: #09121a;
+            --dark: #ebf4fc;
+            --gray: #9cb0c2;
+            --gray-light: #1d2c38;
             --button-neutral-1: #1e1e1e;
             --button-neutral-2: #2d2d2d;
-            --surface: rgba(30, 30, 30, 0.9);
-            --surface-border: rgba(255, 255, 255, 0.08);
-            --hero-glow-1: rgba(72, 149, 239, 0.2);
-            --hero-glow-2: rgba(247, 37, 133, 0.16);
+            --surface: rgba(13, 24, 34, 0.84);
+            --surface-border: rgba(133, 162, 186, 0.24);
+            --hero-glow-1: rgba(20, 184, 166, 0.2);
+            --hero-glow-2: rgba(192, 138, 47, 0.15);
         }
 
         * {
@@ -54,24 +57,49 @@
         }
 
         body {
-            font-family: 'Noto Sans Bengali', sans-serif;
+            font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
             background:
-                radial-gradient(circle at 12% 10%, var(--hero-glow-1), transparent 26%),
-                radial-gradient(circle at 88% 18%, var(--hero-glow-2), transparent 30%),
-                linear-gradient(180deg, var(--light) 0%, #eef1f6 100%);
+                radial-gradient(circle at 15% 8%, var(--hero-glow-1), transparent 32%),
+                radial-gradient(circle at 84% 16%, var(--hero-glow-2), transparent 35%),
+                linear-gradient(165deg, var(--light) 0%, #e8edf4 52%, #dbe4ed 100%);
             color: var(--dark);
             line-height: 1.6;
             transition: var(--transition);
             min-height: 100vh;
             padding-bottom: 40px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        ::selection {
+            background: rgba(20, 184, 166, 0.25);
+            color: #05201e;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(16, 33, 46, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 33, 46, 0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: 0.22;
+        }
+
+        body[data-theme="dark"]::before {
+            opacity: 0.14;
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 10px 0;
-            box-shadow: var(--box-shadow);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(10, 26, 39, 0.8);
+            color: #eef6ff;
+            padding: 12px 0;
+            box-shadow: 0 14px 34px rgba(10, 26, 39, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -80,34 +108,44 @@
         .header-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 5px;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            min-height: 50px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 24px;
-            font-weight: 700;
-            font-family: 'Noto Sans Bengali', sans-serif;
+            gap: 12px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
         }
 
         .logo i {
-            font-size: 28px;
+            font-size: 24px;
+            color: #f6c66e;
+            text-shadow: 0 8px 22px rgba(246, 198, 110, 0.35);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
         .theme-toggle {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #f5fbff;
             width: 45px;
             height: 45px;
-            border-radius: 50%;
+            border-radius: 14px;
             cursor: pointer;
-            font-size: 20px;
+            font-size: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -115,31 +153,34 @@
         }
 
         .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(30deg);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
         .tabs-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 5px 10px;
+            padding: 14px 20px 6px;
         }
 
         .tabs {
             display: flex;
-            background: rgba(233, 236, 239, 0.88);
-            border-radius: var(--border-radius);
-            padding: 5px;
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.58);
+            border-radius: 18px;
+            padding: 6px;
+            margin-bottom: 18px;
             position: sticky;
-            top: 60px;
+            top: calc(var(--header-height) + 8px);
             z-index: 900;
-            backdrop-filter: blur(14px);
-            border: 1px solid var(--surface-border);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            box-shadow: 0 12px 30px rgba(18, 38, 56, 0.1);
+            min-height: var(--tabs-height);
         }
 
         [data-theme="dark"] .tabs {
-            background: rgba(45, 45, 45, 0.9);
+            background: rgba(11, 24, 36, 0.86);
+            border-color: rgba(133, 162, 186, 0.24);
         }
 
         .tab-btn {
@@ -152,7 +193,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: var(--transition);
             display: flex;
             align-items: center;
@@ -160,20 +201,34 @@
             gap: 8px;
         }
 
+        .tab-btn i {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
         .tab-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(15, 118, 110, 0.08);
         }
 
         .tab-btn.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 10px 22px rgba(16, 52, 75, 0.35);
         }
 
         .content-area {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 20px 24px;
+        }
+
+        .tabs::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .tabs::-webkit-scrollbar-thumb {
+            background: rgba(16, 52, 75, 0.25);
+            border-radius: 999px;
         }
 
         .page {
@@ -192,23 +247,23 @@
 
         .note-creator {
             background: var(--surface);
-            border-radius: var(--border-radius);
+            border-radius: 24px;
             box-shadow: var(--box-shadow);
             overflow: hidden;
             margin-bottom: 20px;
             border: 1px solid var(--surface-border);
-            backdrop-filter: blur(14px);
+            backdrop-filter: blur(16px);
         }
 
         [data-theme="dark"] .note-creator {
-            background: #1e1e1e;
+            background: var(--surface);
         }
 
         .note-title-input {
             width: 100%;
-            padding: 10px;
-            font-size: 22px;
-            font-weight: 750;
+            padding: 20px 24px 12px;
+            font-size: 24px;
+            font-weight: 800;
             border: none;
             outline: none;
             background: transparent;
@@ -221,30 +276,35 @@
             opacity: 0.7;
         }
 
+        .note-title-input:focus-visible {
+            box-shadow: inset 0 0 0 2px rgba(15, 118, 110, 0.2);
+            border-radius: 14px;
+        }
+
         .editor-toolbar {
             display: flex;
-            gap: 5px;
-            padding: 7px 12px;
-            background: rgba(233, 236, 239, 0.92);
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            gap: 8px;
+            padding: 10px 14px;
+            background: rgba(239, 244, 248, 0.88);
+            border-top: 1px solid rgba(16, 52, 75, 0.12);
             flex-wrap: wrap;
             align-items: center;
             position: sticky;
-            top: 60px;
+            top: calc(var(--header-height) + var(--tabs-height) + 22px);
             z-index: 800;
-            backdrop-filter: blur(14px);
+            backdrop-filter: blur(16px);
         }
 
         [data-theme="dark"] .editor-toolbar {
-            background: rgba(45, 45, 45, 0.95);
+            background: rgba(14, 28, 40, 0.94);
         }
 
         .tool-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            border: none;
-            background: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 52, 75, 0.12);
+            background: rgba(255, 255, 255, 0.78);
             color: var(--dark);
             cursor: pointer;
             display: flex;
@@ -252,18 +312,20 @@
             justify-content: center;
             font-size: 18px;
             transition: var(--transition);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 22px rgba(15, 35, 55, 0.1);
         }
 
         [data-theme="dark"] .tool-btn {
-            background: #2d2d2d;
-            color: white;
+            background: rgba(13, 24, 34, 0.8);
+            color: #eef6ff;
+            border-color: rgba(133, 162, 186, 0.22);
         }
 
         .tool-btn:hover {
             background: var(--primary);
             color: white;
-            transform: translateY(-2px);
+            border-color: transparent;
+            transform: translateY(-1px);
         }
 
         #imageUploadLabel {
@@ -275,100 +337,84 @@
             margin-left: auto;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         /* এক্সপোর্ট/ব্যাকআপ বাটন */
         .export-btn {
-            background: var(--success);
+            background: linear-gradient(135deg, var(--accent), #d3a45a);
             color: white;
             border: none;
-            border-radius: 8px;
-            padding: 10px 15px;
+            border-radius: 12px;
+            padding: 11px 16px;
             cursor: pointer;
             font-family: inherit;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(192, 138, 47, 0.28);
         }
 
         .export-btn:hover {
-            background: #3ab8d6;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
+            filter: brightness(1.02);
         }
 
         .save-button {
-            --primary: #4361ee;
-            --neutral-1: #f7f8f7;
-            --neutral-2: #e7e7e7;
-            --radius: 10px;
+            --primary: #14b8a6;
+            --neutral-1: #0f766e;
+            --neutral-2: #0b5f59;
+            --radius: 14px;
 
             cursor: pointer;
             border-radius: var(--radius);
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-            border: none;
-            box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
-                0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
+            text-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 14px 30px rgba(15, 118, 110, 0.28);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             transition: all 0.3s ease;
-            min-width: 180px;
-            padding: 18px;
-            height: 60px;
+            min-width: 170px;
+            padding: 14px 18px;
+            height: 54px;
             font-family: 'Noto Sans Bengali', sans-serif;
             font-style: normal;
-            font-size: 16px;
-            font-weight: 600;
-            background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+            font-size: 15px;
+            font-weight: 700;
+            color: #f2fffd;
+            background: linear-gradient(135deg, var(--neutral-1), var(--neutral-2));
         }
 
         [data-theme="dark"] .save-button {
-            --neutral-1: #2d2d2d;
-            --neutral-2: #1e1e1e;
+            --neutral-1: #0f766e;
+            --neutral-2: #0a5954;
         }
 
         .save-button:hover {
-            transform: scale(1.02);
-            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
-                0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
+            transform: translateY(-1px);
+            box-shadow: 0 18px 34px rgba(15, 118, 110, 0.34);
         }
 
         .save-button:active {
             transform: scale(1);
-            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
-                0 10px 3px -3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 9px 18px rgba(15, 118, 110, 0.28);
         }
 
         .save-button:after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: var(--radius);
-            border: 2.5px solid transparent;
-            background: linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
-                linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45))
-                    border-box;
-            z-index: 0;
-            transition: all 0.4s ease;
+            display: none;
         }
 
         .save-button:hover::after {
-            transform: scale(1.05, 1.1);
-            box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 0.1);
+            transform: none;
+            box-shadow: none;
         }
 
         .save-button::before {
-            content: "";
-            inset: 7px 6px 6px 6px;
-            position: absolute;
-            background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
-            border-radius: 30px;
-            filter: blur(0.5px);
-            z-index: 2;
+            display: none;
         }
 
         /* বাটন স্টেট */
@@ -397,13 +443,7 @@
         }
 
         .button-outline {
-            position: absolute;
-            border-radius: inherit;
-            overflow: hidden;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            inset: -2px -3.5px;
+            display: none;
         }
 
         .button-outline::before {
@@ -642,22 +682,22 @@
         }
 
         .save-text, .update-text {
-            color: var(--dark);
+            color: #f2fffd;
             z-index: 3;
             position: relative;
         }
 
         [data-theme="dark"] .save-text,
         [data-theme="dark"] .update-text {
-            color: white;
+            color: #f2fffd;
         }
 
         .note-editor {
             min-height: 400px;
-            padding: 25px;
+            padding: 24px;
             outline: none;
             font-size: 18px;
-            line-height: 1.8;
+            line-height: 1.9;
             color: var(--dark);
             background: transparent;
             position: relative;
@@ -670,12 +710,17 @@
             opacity: 0.7;
         }
 
+        .note-editor:focus-visible {
+            box-shadow: inset 0 0 0 2px rgba(15, 118, 110, 0.2);
+            border-radius: 14px;
+        }
+
         .image-preview-container {
             display: flex;
             gap: 15px;
-            padding: 15px 25px;
-            background: var(--gray-light);
-            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 14px 24px;
+            background: rgba(220, 227, 234, 0.5);
+            border-top: 1px solid rgba(16, 52, 75, 0.1);
             overflow-x: auto;
             display: none;
         }
@@ -702,65 +747,69 @@
         .search-container {
             margin-bottom: 30px;
             position: sticky;
-            top: 140px;
+            top: calc(var(--header-height) + var(--tabs-height) + 26px);
             z-index: 800;
-            background: rgba(248, 249, 250, 0.95);
-            padding: 15px 0;
-            backdrop-filter: blur(12px);
+            background: rgba(243, 246, 250, 0.74);
+            border-radius: 16px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            backdrop-filter: blur(14px);
         }
 
         .search-input {
             width: 100%;
             padding: 15px 25px;
             border-radius: var(--border-radius);
-            border: 2px solid transparent;
-            background: #f5f7fb;
+            border: 1px solid rgba(16, 52, 75, 0.12);
+            background: rgba(255, 255, 255, 0.82);
             color: var(--dark);
             font-size: 16px;
             font-family: inherit;
             transition: var(--transition);
-            box-shadow: 0 10px 25px rgba(31, 41, 55, 0.08);
+            box-shadow: 0 12px 24px rgba(31, 41, 55, 0.08);
         }
 
 
         [data-theme="dark"] .search-container {
-            background: rgba(18, 18, 18, 0.92);
+            background: rgba(10, 22, 33, 0.78);
+            border-color: rgba(133, 162, 186, 0.22);
         }
 
         [data-theme="dark"] .search-input {
-            background: #2a2f3a;
+            background: rgba(13, 24, 34, 0.84);
+            border-color: rgba(133, 162, 186, 0.24);
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.18);
         }
 
         .notes-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 22px;
             align-items: stretch;
         }
 
         .note-card {
             display: flex;
             flex-direction: column;
-            height: 200px;
+            height: 220px;
             width: 100%;
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 12px 30px rgba(17, 24, 39, 0.16);
+            transition: all 0.35s ease;
+            box-shadow: 0 18px 40px rgba(17, 24, 39, 0.2);
             cursor: pointer;
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.34);
         }
 
         .note-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(17, 24, 39, 0.26);
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 26px 50px rgba(17, 24, 39, 0.3);
         }
 
         .card-background {
@@ -785,7 +834,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+            background: linear-gradient(160deg, rgba(6, 20, 31, 0.35), rgba(4, 18, 30, 0.78));
             z-index: 1;
         }
 
@@ -796,7 +845,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 20px;
+            padding: 20px 20px 18px;
             color: white;
         }
 
@@ -807,12 +856,12 @@
         }
 
         .card-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
             line-height: 1.3;
             margin-bottom: 10px;
             max-width: 70%;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
         }
 
         .card-date {
@@ -838,21 +887,21 @@
         .card-action-btn {
             width: 36px;
             height: 36px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.16);
             color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
 
         .card-action-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
         }
 
         .share-button-container {
@@ -956,7 +1005,7 @@
 
         .note-reader {
             background: var(--surface);
-            border-radius: var(--border-radius);
+            border-radius: 24px;
             box-shadow: var(--box-shadow);
             overflow: hidden;
             padding: 40px;
@@ -967,7 +1016,7 @@
         }
 
         [data-theme="dark"] .note-reader {
-            background: #1e1e1e;
+            background: var(--surface);
         }
 
         .read-note-title {
@@ -984,7 +1033,7 @@
             align-items: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid var(--gray-light);
+            border-bottom: 1px solid rgba(16, 52, 75, 0.16);
             color: var(--gray);
             font-size: 16px;
         }
@@ -1009,20 +1058,21 @@
             gap: 15px;
             margin-top: 30px;
             padding-top: 20px;
-            border-top: 2px solid var(--gray-light);
+            border-top: 1px solid rgba(16, 52, 75, 0.16);
         }
 
         .action-btn {
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border-radius: 12px;
             border: none;
             font-family: inherit;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 10px 20px rgba(15, 35, 55, 0.14);
         }
 
         .btn-edit {
@@ -1042,17 +1092,17 @@
 
         /* এক্সপোর্ট একশন বাটন */
         .btn-export {
-            background: var(--success);
+            background: linear-gradient(135deg, var(--accent), #d3a45a);
             color: white;
         }
 
         .btn-export:hover {
-            background: #3ab8d6;
+            filter: brightness(1.03);
         }
 
         .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 25px rgba(15, 35, 55, 0.2);
         }
 
         .modal {
@@ -1107,12 +1157,17 @@
             text-align: center;
             padding: 60px 20px;
             color: var(--gray);
+            background: rgba(255, 255, 255, 0.38);
+            border: 1px dashed rgba(16, 52, 75, 0.2);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .empty-state i {
             font-size: 80px;
             margin-bottom: 20px;
-            opacity: 0.5;
+            opacity: 0.7;
+            color: var(--primary-light);
         }
 
         .empty-state h3 {
@@ -1124,6 +1179,11 @@
             font-size: 16px;
             max-width: 500px;
             margin: 0 auto;
+        }
+
+        [data-theme="dark"] .empty-state {
+            background: rgba(13, 24, 34, 0.64);
+            border-color: rgba(133, 162, 186, 0.3);
         }
 
         /* সেটিংস মেনু */
@@ -1169,24 +1229,65 @@
             text-align: center;
         }
 
+        button:focus-visible,
+        .tab-btn:focus-visible,
+        .tool-btn:focus-visible,
+        .card-action-btn:focus-visible,
+        .action-btn:focus-visible,
+        .export-btn:focus-visible,
+        .theme-toggle:focus-visible,
+        .search-input:focus-visible {
+            outline: 2px solid rgba(20, 184, 166, 0.85);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
         @media (max-width: 768px) {
+            body {
+                --header-height: 118px;
+                --tabs-height: 56px;
+            }
+
             .header-container {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+                flex-wrap: wrap;
+                gap: 10px;
+                text-align: left;
+                padding: 0 14px;
+            }
+
+            .header-actions {
+                margin-left: auto;
             }
             
             .tabs {
-                flex-direction: column;
-                top: 140px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                top: calc(var(--header-height) + 6px);
+            }
+
+            .tab-btn {
+                flex: 0 0 auto;
+                white-space: nowrap;
+                min-width: 140px;
+                padding: 13px 16px;
             }
             
             .editor-toolbar {
-                top: 200px;
+                top: calc(var(--header-height) + var(--tabs-height) + 18px);
             }
             
             .search-container {
-                top: 200px;
+                top: calc(var(--header-height) + var(--tabs-height) + 20px);
             }
             
             .notes-grid {
@@ -1204,6 +1305,10 @@
             .reader-actions {
                 flex-direction: column;
             }
+
+            .action-btn {
+                justify-content: center;
+            }
             
             .save-button {
                 min-width: 150px;
@@ -1218,7 +1323,7 @@
             }
             
             .note-card {
-                height: 180px;
+                height: 190px;
             }
             
             .card-title {
@@ -1227,18 +1332,36 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                --header-height: 132px;
+                --tabs-height: 54px;
+            }
+
+            .content-area {
+                padding: 0 12px 20px;
+            }
+
+            .tabs-container {
+                padding: 10px 12px 6px;
+            }
+
             .notes-grid {
                 grid-template-columns: 1fr;
             }
             
             .note-title-input {
                 font-size: 20px;
-                padding: 20px;
+                padding: 18px 18px 12px;
             }
             
             .note-editor {
-                padding: 20px;
+                padding: 18px;
                 font-size: 16px;
+            }
+
+            .header-actions .export-btn {
+                padding: 10px 12px;
+                font-size: 14px;
             }
             
             .save-button {
@@ -1258,7 +1381,7 @@
             }
             
             .note-card {
-                height: 160px;
+                height: 172px;
             }
             
             .card-title {
@@ -1275,7 +1398,7 @@
                 <i class="fas fa-book"></i>
                 <span>নোট পেড</span>
             </div>
-            <div style="display: flex; gap: 10px; align-items: center;">
+            <div class="header-actions">
                 <button class="export-btn" id="exportAllBtn" title="সব নোট ব্যাকআপ করুন">
                     <i class="fas fa-download"></i>
                     ব্যাকআপ
