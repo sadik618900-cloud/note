@@ -1,1433 +1,63 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>নোট পেড - আপনার ডিজিটাল ডায়েরি</title>
+    <title>নোট প্যাড - আপনার ডিজিটাল ডায়েরি</title>
     
-    <!-- Noto Sans Bengali ফন্ট লিংক -->
+    <!-- Noto Sans Bengali à¦«à¦¨à§à¦Ÿ à¦²à¦¿à¦‚à¦• -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
-        /* পূর্বের সব CSS কোড অপরিবর্তিত */
-        :root {
-            --primary: #0f766e;
-            --primary-light: #14b8a6;
-            --secondary: #10344b;
-            --accent: #c08a2f;
-            --success: #1f9d78;
-            --warning: #d97706;
-            --danger: #dc2626;
-            --light: #f3f5f8;
-            --dark: #10212e;
-            --gray: #5b6b78;
-            --gray-light: #dce3ea;
-            --border-radius: 16px;
-            --box-shadow: 0 20px 45px rgba(15, 35, 55, 0.12);
-            --transition: all 0.28s ease;
-            --card-bg: #ec7263;
-            --card-accent: #efc745;
-            --card-dark: #974859;
-            --surface: rgba(255, 255, 255, 0.82);
-            --surface-border: rgba(255, 255, 255, 0.72);
-            --hero-glow-1: rgba(15, 118, 110, 0.22);
-            --hero-glow-2: rgba(192, 138, 47, 0.2);
-            --header-height: 74px;
-            --tabs-height: 64px;
-        }
-
-        [data-theme="dark"] {
-            --light: #09121a;
-            --dark: #ebf4fc;
-            --gray: #9cb0c2;
-            --gray-light: #1d2c38;
-            --button-neutral-1: #1e1e1e;
-            --button-neutral-2: #2d2d2d;
-            --surface: rgba(13, 24, 34, 0.84);
-            --surface-border: rgba(133, 162, 186, 0.24);
-            --hero-glow-1: rgba(20, 184, 166, 0.2);
-            --hero-glow-2: rgba(192, 138, 47, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
-            background:
-                radial-gradient(circle at 15% 8%, var(--hero-glow-1), transparent 32%),
-                radial-gradient(circle at 84% 16%, var(--hero-glow-2), transparent 35%),
-                linear-gradient(165deg, var(--light) 0%, #e8edf4 52%, #dbe4ed 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            transition: var(--transition);
-            min-height: 100vh;
-            padding-bottom: 40px;
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-        }
-
-        ::selection {
-            background: rgba(20, 184, 166, 0.25);
-            color: #05201e;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            background-image:
-                linear-gradient(rgba(16, 33, 46, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(16, 33, 46, 0.04) 1px, transparent 1px);
-            background-size: 48px 48px;
-            opacity: 0.22;
-        }
-
-        body[data-theme="dark"]::before {
-            opacity: 0.14;
-        }
-
-        header {
-            background: rgba(10, 26, 39, 0.8);
-            color: #eef6ff;
-            padding: 12px 0;
-            box-shadow: 0 14px 34px rgba(10, 26, 39, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            min-height: 50px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.4rem;
-            font-weight: 800;
-            letter-spacing: 0.01em;
-            font-family: 'Noto Sans Bengali', 'Hind Siliguri', sans-serif;
-        }
-
-        .logo i {
-            font-size: 24px;
-            color: #f6c66e;
-            text-shadow: 0 8px 22px rgba(246, 198, 110, 0.35);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .theme-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #f5fbff;
-            width: 45px;
-            height: 45px;
-            border-radius: 14px;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-        }
-
-        .tabs-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 14px 20px 6px;
-        }
-
-        .tabs {
-            display: flex;
-            background: rgba(255, 255, 255, 0.58);
-            border-radius: 18px;
-            padding: 6px;
-            margin-bottom: 18px;
-            position: sticky;
-            top: calc(var(--header-height) + 8px);
-            z-index: 900;
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.62);
-            box-shadow: 0 12px 30px rgba(18, 38, 56, 0.1);
-            min-height: var(--tabs-height);
-        }
-
-        [data-theme="dark"] .tabs {
-            background: rgba(11, 24, 36, 0.86);
-            border-color: rgba(133, 162, 186, 0.24);
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 15px 20px;
-            border: none;
-            background: transparent;
-            color: var(--dark);
-            font-family: inherit;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 12px;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .tab-btn i {
-            font-size: 0.95em;
-            opacity: 0.9;
-        }
-
-        .tab-btn:hover {
-            background: rgba(15, 118, 110, 0.08);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            box-shadow: 0 10px 22px rgba(16, 52, 75, 0.35);
-        }
-
-        .content-area {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px 24px;
-        }
-
-        .tabs::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .tabs::-webkit-scrollbar-thumb {
-            background: rgba(16, 52, 75, 0.25);
-            border-radius: 999px;
-        }
-
-        .page {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .note-creator {
-            background: var(--surface);
-            border-radius: 24px;
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid var(--surface-border);
-            backdrop-filter: blur(16px);
-        }
-
-        [data-theme="dark"] .note-creator {
-            background: var(--surface);
-        }
-
-        .note-title-input {
-            width: 100%;
-            padding: 20px 24px 12px;
-            font-size: 24px;
-            font-weight: 800;
-            border: none;
-            outline: none;
-            background: transparent;
-            color: var(--dark);
-            font-family: inherit;
-        }
-
-        .note-title-input::placeholder {
-            color: var(--gray);
-            opacity: 0.7;
-        }
-
-        .note-title-input:focus-visible {
-            box-shadow: inset 0 0 0 2px rgba(15, 118, 110, 0.2);
-            border-radius: 14px;
-        }
-
-        .editor-toolbar {
-            display: flex;
-            gap: 8px;
-            padding: 10px 14px;
-            background: rgba(239, 244, 248, 0.88);
-            border-top: 1px solid rgba(16, 52, 75, 0.12);
-            flex-wrap: wrap;
-            align-items: center;
-            position: sticky;
-            top: calc(var(--header-height) + var(--tabs-height) + 22px);
-            z-index: 800;
-            backdrop-filter: blur(16px);
-        }
-
-        [data-theme="dark"] .editor-toolbar {
-            background: rgba(14, 28, 40, 0.94);
-        }
-
-        .tool-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            border: 1px solid rgba(16, 52, 75, 0.12);
-            background: rgba(255, 255, 255, 0.78);
-            color: var(--dark);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: var(--transition);
-            box-shadow: 0 10px 22px rgba(15, 35, 55, 0.1);
-        }
-
-        [data-theme="dark"] .tool-btn {
-            background: rgba(13, 24, 34, 0.8);
-            color: #eef6ff;
-            border-color: rgba(133, 162, 186, 0.22);
-        }
-
-        .tool-btn:hover {
-            background: var(--primary);
-            color: white;
-            border-color: transparent;
-            transform: translateY(-1px);
-        }
-
-        #imageUploadLabel {
-            background: var(--accent);
-            color: white;
-        }
-
-        .save-btn-container {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* এক্সপোর্ট/ব্যাকআপ বাটন */
-        .export-btn {
-            background: linear-gradient(135deg, var(--accent), #d3a45a);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 11px 16px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: var(--transition);
-            box-shadow: 0 10px 20px rgba(192, 138, 47, 0.28);
-        }
-
-        .export-btn:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.02);
-        }
-
-        .save-button {
-            --primary: #14b8a6;
-            --neutral-1: #0f766e;
-            --neutral-2: #0b5f59;
-            --radius: 14px;
-
-            cursor: pointer;
-            border-radius: var(--radius);
-            text-shadow: none;
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            box-shadow: 0 14px 30px rgba(15, 118, 110, 0.28);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            transition: all 0.3s ease;
-            min-width: 170px;
-            padding: 14px 18px;
-            height: 54px;
-            font-family: 'Noto Sans Bengali', sans-serif;
-            font-style: normal;
-            font-size: 15px;
-            font-weight: 700;
-            color: #f2fffd;
-            background: linear-gradient(135deg, var(--neutral-1), var(--neutral-2));
-        }
-
-        [data-theme="dark"] .save-button {
-            --neutral-1: #0f766e;
-            --neutral-2: #0a5954;
-        }
-
-        .save-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 18px 34px rgba(15, 118, 110, 0.34);
-        }
-
-        .save-button:active {
-            transform: scale(1);
-            box-shadow: 0 9px 18px rgba(15, 118, 110, 0.28);
-        }
-
-        .save-button:after {
-            display: none;
-        }
-
-        .save-button:hover::after {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .save-button::before {
-            display: none;
-        }
-
-        /* বাটন স্টেট */
-        .button-state p {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .button-state .icon {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            margin: auto;
-            transform: scale(1.25);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            left: 20px;
-        }
-
-        .button-state .icon svg {
-            overflow: visible;
-        }
-
-        .button-outline {
-            display: none;
-        }
-
-        .button-outline::before {
-            content: "";
-            position: absolute;
-            inset: -100%;
-            background: conic-gradient(
-                from 180deg,
-                transparent 60%,
-                var(--primary) 80%,
-                transparent 100%
-            );
-            animation: spin 2s linear infinite;
-            animation-play-state: paused;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .save-button:hover .button-outline {
-            opacity: 1;
-        }
-
-        .save-button:hover .button-outline::before {
-            animation-play-state: running;
-        }
-
-        .button-state p span {
-            display: block;
-            opacity: 0;
-            animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
-        }
-
-        .save-button:hover p span {
-            opacity: 1;
-            animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
-        }
-
-        .save-button:focus p span {
-            opacity: 1;
-            animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
-        }
-
-        @keyframes wave {
-            30% {
-                opacity: 1;
-                transform: translateY(4px) translateX(0) rotate(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translateY(-3px) translateX(0) rotate(0);
-                color: var(--primary);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) translateX(0) rotate(0);
-            }
-        }
-
-        @keyframes slideDown {
-            0% {
-                opacity: 0;
-                transform: translateY(-20px) translateX(5px) rotate(-90deg);
-                color: var(--primary);
-                filter: blur(5px);
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(4px) translateX(0) rotate(0);
-                filter: blur(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translateY(-3px) translateX(0) rotate(0);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) translateX(0) rotate(0);
-            }
-        }
-
-        @keyframes disapear {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-                transform: translateX(5px) translateY(20px);
-                color: var(--primary);
-                filter: blur(5px);
-            }
-        }
-
-        .state--default .icon svg {
-            animation: land 0.6s ease forwards;
-        }
-
-        .save-button:hover .state--default .icon {
-            transform: rotate(45deg) scale(1.25);
-        }
-
-        .save-button:focus .state--default svg {
-            animation: takeOff 0.8s linear forwards;
-        }
-
-        .save-button:focus .state--default .icon {
-            transform: rotate(0) scale(1.25);
-        }
-
-        @keyframes takeOff {
-            0% {
-                opacity: 1;
-            }
-            60% {
-                opacity: 1;
-                transform: translateX(70px) rotate(45deg) scale(2);
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(160px) rotate(45deg) scale(0);
-            }
-        }
-
-        @keyframes land {
-            0% {
-                transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
-                opacity: 0;
-                filter: blur(3px);
-            }
-            100% {
-                transform: translateX(0) translateY(0) rotate(0);
-                opacity: 1;
-                filter: blur(0);
-            }
-        }
-
-        .state--default .icon:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            height: 2px;
-            width: 0;
-            left: -5px;
-            background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5));
-        }
-
-        .save-button:focus .state--default .icon:before {
-            animation: contrail 0.8s linear forwards;
-        }
-
-        @keyframes contrail {
-            0% {
-                width: 0;
-                opacity: 1;
-            }
-            8% {
-                width: 15px;
-            }
-            60% {
-                opacity: 0.7;
-                width: 80px;
-            }
-            100% {
-                opacity: 0;
-                width: 160px;
-            }
-        }
-
-        .button-state {
-            padding-left: 35px;
-            z-index: 3;
-            display: flex;
-            position: relative;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .state--default span:nth-child(4) {
-            margin-right: 5px;
-        }
-
-        .state--sent {
-            display: none;
-        }
-
-        .state--sent svg {
-            transform: scale(1.25);
-            margin-right: 8px;
-        }
-
-        .save-button:focus .state--default {
-            position: absolute;
-        }
-
-        .save-button:focus .state--sent {
-            display: flex;
-        }
-
-        .save-button:focus .state--sent span {
-            opacity: 0;
-            animation: slideDown 0.8s ease forwards calc(var(--i) * 0.2s);
-        }
-
-        .save-button:focus .state--sent .icon svg {
-            opacity: 0;
-            animation: appear 1.2s ease forwards 0.8s;
-        }
-
-        @keyframes appear {
-            0% {
-                opacity: 0;
-                transform: scale(4) rotate(-40deg);
-                color: var(--primary);
-                filter: blur(4px);
-            }
-            30% {
-                opacity: 1;
-                transform: scale(0.6);
-                filter: blur(1px);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-                filter: blur(0);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .save-text, .update-text {
-            color: #f2fffd;
-            z-index: 3;
-            position: relative;
-        }
-
-        [data-theme="dark"] .save-text,
-        [data-theme="dark"] .update-text {
-            color: #f2fffd;
-        }
-
-        .note-editor {
-            min-height: 400px;
-            padding: 24px;
-            outline: none;
-            font-size: 18px;
-            line-height: 1.9;
-            color: var(--dark);
-            background: transparent;
-            position: relative;
-            z-index: 1;
-        }
-
-        .note-editor:empty:before {
-            content: attr(placeholder);
-            color: var(--gray);
-            opacity: 0.7;
-        }
-
-        .note-editor:focus-visible {
-            box-shadow: inset 0 0 0 2px rgba(15, 118, 110, 0.2);
-            border-radius: 14px;
-        }
-
-        .image-preview-container {
-            display: flex;
-            gap: 15px;
-            padding: 14px 24px;
-            background: rgba(220, 227, 234, 0.5);
-            border-top: 1px solid rgba(16, 52, 75, 0.1);
-            overflow-x: auto;
-            display: none;
-        }
-
-        .image-preview-container.show {
-            display: flex;
-        }
-
-        .preview-thumb {
-            width: 80px;
-            height: 80px;
-            border-radius: 10px;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .preview-thumb:hover {
-            transform: scale(1.05);
-            border-color: var(--accent);
-        }
-
-        .search-container {
-            margin-bottom: 30px;
-            position: sticky;
-            top: calc(var(--header-height) + var(--tabs-height) + 26px);
-            z-index: 800;
-            background: rgba(243, 246, 250, 0.74);
-            border-radius: 16px;
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.68);
-            backdrop-filter: blur(14px);
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 15px 25px;
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(16, 52, 75, 0.12);
-            background: rgba(255, 255, 255, 0.82);
-            color: var(--dark);
-            font-size: 16px;
-            font-family: inherit;
-            transition: var(--transition);
-            box-shadow: 0 12px 24px rgba(31, 41, 55, 0.08);
-        }
-
-
-        [data-theme="dark"] .search-container {
-            background: rgba(10, 22, 33, 0.78);
-            border-color: rgba(133, 162, 186, 0.22);
-        }
-
-        [data-theme="dark"] .search-input {
-            background: rgba(13, 24, 34, 0.84);
-            border-color: rgba(133, 162, 186, 0.24);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.18);
-        }
-
-        .notes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 22px;
-            align-items: stretch;
-        }
-
-        .note-card {
-            display: flex;
-            flex-direction: column;
-            height: 220px;
-            width: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            transition: all 0.35s ease;
-            box-shadow: 0 18px 40px rgba(17, 24, 39, 0.2);
-            cursor: pointer;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.34);
-        }
-
-        .note-card:hover {
-            transform: translateY(-6px) scale(1.01);
-            box-shadow: 0 26px 50px rgba(17, 24, 39, 0.3);
-        }
-
-        .card-background {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 0;
-            filter: brightness(0.7);
-            transition: filter 0.3s ease;
-        }
-
-        .note-card:hover .card-background {
-            filter: brightness(0.9);
-        }
-
-        .card-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(160deg, rgba(6, 20, 31, 0.35), rgba(4, 18, 30, 0.78));
-            z-index: 1;
-        }
-
-        .card-content {
-            position: relative;
-            z-index: 2;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px 20px 18px;
-            color: white;
-        }
-
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 10px;
-            max-width: 70%;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
-        }
-
-        .card-date {
-            font-size: 14px;
-            opacity: 0.9;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            text-align: right;
-        }
-
-        .card-time {
-            font-size: 12px;
-            opacity: 0.8;
-            text-align: right;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: auto;
-        }
-
-        .card-action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            background: rgba(255, 255, 255, 0.16);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .card-action-btn:hover {
-            background: rgba(255, 255, 255, 0.28);
-            transform: translateY(-1px);
-        }
-
-        .share-button-container {
-            position: relative;
-            display: inline-block;
-        }
-
-        .share-tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: rgba(30, 30, 30, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            width: 200px;
-        }
-
-        .share-tooltip::before {
-            content: '';
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 10px;
-            border-style: solid;
-            border-color: rgba(30, 30, 30, 0.95) transparent transparent transparent;
-        }
-
-        .share-button-container:hover .share-tooltip {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: space-around;
-            gap: 10px;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            color: white;
-        }
-
-        .social-icon:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .social-icon.facebook:hover {
-            background: #1877f2;
-        }
-
-        .social-icon.email:hover {
-            background: #ea4335;
-        }
-
-        .social-icon.linkedin:hover {
-            background: #0077b5;
-        }
-
-        .social-icon.whatsapp:hover {
-            background: #25d366;
-        }
-
-        /* এক্সপোর্ট বাটন ক্লাস */
-        .export-icon-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .export-icon-btn:hover {
-            background: var(--success);
-            transform: translateY(-2px);
-        }
-
-        .note-reader {
-            background: var(--surface);
-            border-radius: 24px;
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            padding: 40px;
-            margin-bottom: 30px;
-            position: relative;
-            border: 1px solid var(--surface-border);
-            backdrop-filter: blur(14px);
-        }
-
-        [data-theme="dark"] .note-reader {
-            background: var(--surface);
-        }
-
-        .read-note-title {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--dark);
-            line-height: 1.3;
-        }
-
-        .read-note-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(16, 52, 75, 0.16);
-            color: var(--gray);
-            font-size: 16px;
-        }
-
-        .read-note-content {
-            font-size: 18px;
-            line-height: 1.8;
-            color: var(--dark);
-            position: relative;
-            z-index: 1;
-        }
-
-        .read-note-content img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin: 20px 0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .reader-actions {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(16, 52, 75, 0.16);
-        }
-
-        .action-btn {
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: none;
-            font-family: inherit;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 10px 20px rgba(15, 35, 55, 0.14);
-        }
-
-        .btn-edit {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-delete {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-back {
-            background: var(--gray);
-            color: white;
-        }
-
-        /* এক্সপোর্ট একশন বাটন */
-        .btn-export {
-            background: linear-gradient(135deg, var(--accent), #d3a45a);
-            color: white;
-        }
-
-        .btn-export:hover {
-            filter: brightness(1.03);
-        }
-
-        .action-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 12px 25px rgba(15, 35, 55, 0.2);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.show {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            color: white;
-            font-size: 30px;
-            cursor: pointer;
-            background: rgba(0, 0, 0, 0.5);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition);
-        }
-
-        .close-modal:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--gray);
-            background: rgba(255, 255, 255, 0.38);
-            border: 1px dashed rgba(16, 52, 75, 0.2);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-        }
-
-        .empty-state i {
-            font-size: 80px;
-            margin-bottom: 20px;
-            opacity: 0.7;
-            color: var(--primary-light);
-        }
-
-        .empty-state h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .empty-state p {
-            font-size: 16px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        [data-theme="dark"] .empty-state {
-            background: rgba(13, 24, 34, 0.64);
-            border-color: rgba(133, 162, 186, 0.3);
-        }
-
-        /* সেটিংস মেনু */
-        .settings-menu {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 15px;
-            z-index: 1000;
-            display: none;
-            min-width: 200px;
-        }
-
-        [data-theme="dark"] .settings-menu {
-            background: #1e1e1e;
-        }
-
-        .settings-menu.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .settings-item {
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: var(--transition);
-            margin-bottom: 5px;
-        }
-
-        .settings-item:hover {
-            background: var(--gray-light);
-        }
-
-        .settings-item i {
-            width: 20px;
-            text-align: center;
-        }
-
-        button:focus-visible,
-        .tab-btn:focus-visible,
-        .tool-btn:focus-visible,
-        .card-action-btn:focus-visible,
-        .action-btn:focus-visible,
-        .export-btn:focus-visible,
-        .theme-toggle:focus-visible,
-        .search-input:focus-visible {
-            outline: 2px solid rgba(20, 184, 166, 0.85);
-            outline-offset: 2px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                --header-height: 118px;
-                --tabs-height: 56px;
-            }
-
-            .header-container {
-                flex-wrap: wrap;
-                gap: 10px;
-                text-align: left;
-                padding: 0 14px;
-            }
-
-            .header-actions {
-                margin-left: auto;
-            }
-            
-            .tabs {
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                top: calc(var(--header-height) + 6px);
-            }
-
-            .tab-btn {
-                flex: 0 0 auto;
-                white-space: nowrap;
-                min-width: 140px;
-                padding: 13px 16px;
-            }
-            
-            .editor-toolbar {
-                top: calc(var(--header-height) + var(--tabs-height) + 18px);
-            }
-            
-            .search-container {
-                top: calc(var(--header-height) + var(--tabs-height) + 20px);
-            }
-            
-            .notes-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-            
-            .note-reader {
-                padding: 25px;
-            }
-            
-            .read-note-title {
-                font-size: 28px;
-            }
-            
-            .reader-actions {
-                flex-direction: column;
-            }
-
-            .action-btn {
-                justify-content: center;
-            }
-            
-            .save-button {
-                min-width: 150px;
-                height: 55px;
-                padding: 15px;
-                font-size: 14px;
-            }
-            
-            .button-state .icon {
-                left: 15px;
-                transform: scale(1.1);
-            }
-            
-            .note-card {
-                height: 190px;
-            }
-            
-            .card-title {
-                font-size: 18px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                --header-height: 132px;
-                --tabs-height: 54px;
-            }
-
-            .content-area {
-                padding: 0 12px 20px;
-            }
-
-            .tabs-container {
-                padding: 10px 12px 6px;
-            }
-
-            .notes-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .note-title-input {
-                font-size: 20px;
-                padding: 18px 18px 12px;
-            }
-            
-            .note-editor {
-                padding: 18px;
-                font-size: 16px;
-            }
-
-            .header-actions .export-btn {
-                padding: 10px 12px;
-                font-size: 14px;
-            }
-            
-            .save-button {
-                min-width: 120px;
-                height: 50px;
-                padding: 12px;
-                font-size: 13px;
-            }
-            
-            .button-state {
-                padding-left: 30px;
-            }
-            
-            .button-state .icon {
-                left: 10px;
-                transform: scale(1);
-            }
-            
-            .note-card {
-                height: 172px;
-            }
-            
-            .card-title {
-                font-size: 16px;
-            }
-        }
-    </style>
+        <link rel="stylesheet" href="./app-redesign.css">
 </head>
 <body data-theme="light">
-    
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <i class="fas fa-book"></i>
-                <span>নোট পেড</span>
+    <div class="app-wrap">
+        <header class="site-header">
+            <div class="header-main">
+                <div class="logo">
+                    <i class="fas fa-book-open"></i>
+                    <div class="logo-text">
+                        <span class="logo-title">নোট প্যাড</span>
+                        <small class="logo-subtitle">আপনার স্মার্ট ডিজিটাল নোটবুক</small>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="export-btn" id="exportAllBtn" title="সব নোট ব্যাকআপ করুন">
+                        <i class="fas fa-download"></i>
+                        ব্যাকআপ
+                    </button>
+                    <button class="theme-toggle" id="themeToggle" title="থিম পরিবর্তন">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
             </div>
-            <div class="header-actions">
-                <button class="export-btn" id="exportAllBtn" title="সব নোট ব্যাকআপ করুন">
-                    <i class="fas fa-download"></i>
-                    ব্যাকআপ
-                </button>
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fas fa-moon"></i>
-                </button>
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab-btn active" data-target="createPage">
+                        <i class="fas fa-pen"></i>
+                        নতুন নোট
+                    </button>
+                    <button class="tab-btn" data-target="notesPage">
+                        <i class="fas fa-layer-group"></i>
+                        সব নোট
+                    </button>
+                    <button class="tab-btn" data-target="readPage">
+                        <i class="fas fa-book-reader"></i>
+                        পড়ুন
+                    </button>
+                </div>
             </div>
-        </div>
-    </header>
-    
-    <div class="tabs-container">
-        <div class="tabs">
-            <button class="tab-btn active" data-target="createPage">
-                <i class="fas fa-plus-circle"></i>
-                নতুন নোট
-            </button>
-            <button class="tab-btn" data-target="notesPage">
-                <i class="fas fa-list"></i>
-                সব নোট
-            </button>
-            <button class="tab-btn" data-target="readPage">
-                <i class="fas fa-book-reader"></i>
-                পড়ুন
-            </button>
-        </div>
-    </div>
-    
-    <div class="content-area">
+        </header>
+
+        <main class="workspace">
+            <section class="hero-panel">
+                <h1>নতুনভাবে লিখুন, সাজান এবং পড়ুন</h1>
+                <p>পরিষ্কার লেআউট, সুন্দর বাংলা টাইপোগ্রাফি এবং দ্রুত নোট ম্যানেজমেন্ট।</p>
+            </section>
+
+            <div class="content-area">
         
         <div class="page active" id="createPage">
             <div class="note-creator">
@@ -1498,8 +128,8 @@
                                 </div>
                                 <p class="save-text">
                                     <span style="--i:0">সে</span>
-                                    <span style="--i:1"></span>
-                                    <span style="--i:2">ভ</span>
+                                    <span style="--i:1">ভ</span>
+                                    <span style="--i:2"></span>
                                 </p>
                             </div>
                             <div class="button-state state--sent">
@@ -1526,9 +156,9 @@
                                     </svg>
                                 </div>
                                <p class="update-text"> 
-                                    <span style="--i:5">স</span> 
-                                    <span style="--i:6">ে</span> 
-                                    <span style="--i:7">ভ</span> 
+                                    <span style="--i:5">সে</span> 
+                                    <span style="--i:6">ভ</span> 
+                                    <span style="--i:7"></span> 
                                 </p>
                             </div>
                         </button>
@@ -1549,7 +179,7 @@
             <div class="empty-state" id="emptyNotesState" style="display: none;">
                 <i class="fas fa-sticky-note"></i>
                 <h3>কোন নোট নেই</h3>
-                <p>এখনো কোন নোট তৈরি করা হয়নি। নতুন নোট তৈরি করতে "নতুন নোট" ট্যাবে ক্লিক করুন।</p>
+                <p>এখনও কোনো নোট তৈরি করা হয়নি। নতুন নোট তৈরি করতে "নতুন নোট" ট্যাবে ক্লিক করুন।</p>
             </div>
         </div>
         
@@ -1558,7 +188,7 @@
                 <div class="empty-state" id="emptyReaderState">
                     <i class="fas fa-book-open"></i>
                     <h3>নোট নির্বাচন করুন</h3>
-                    <p>নোট পড়তে "সব নোট" ট্যাব থেকে একটি নোট সিলেক্ট করুন।</p>
+                    <p>নোট পড়তে "সব নোট" ট্যাব থেকে একটি নোট সিলেক্ট করুন।</p>
                 </div>
                 
                 <div id="noteContent" style="display: none;">
@@ -1593,15 +223,17 @@
             </div>
         </div>
         
+            </div>
+        </main>
     </div>
-    
+
     <div class="modal" id="imageModal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <img class="modal-img" id="modalImage" src="" alt="বড় ছবি">
+        <img class="modal-img" id="modalImage" src="" alt="বড় ছবি">
     </div>
     
     <script>
-        // থিম টগল
+        // à¦¥à¦¿à¦® à¦Ÿà¦—à¦²
         const themeToggle = document.getElementById('themeToggle');
         const body = document.body;
         
@@ -1620,7 +252,7 @@
         body.setAttribute('data-theme', savedTheme);
         themeToggle.querySelector('i').className = savedTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
         
-        // ট্যাব নেভিগেশন
+        // à¦Ÿà§à¦¯à¦¾à¦¬ à¦¨à§‡à¦­à¦¿à¦—à§‡à¦¶à¦¨
         const tabBtns = document.querySelectorAll('.tab-btn');
         const pages = document.querySelectorAll('.page');
         
@@ -1643,7 +275,7 @@
             });
         });
         
-        // নোট এডিটর ফরম্যাটিং
+        // à¦¨à§‹à¦Ÿ à¦à¦¡à¦¿à¦Ÿà¦° à¦«à¦°à¦®à§à¦¯à¦¾à¦Ÿà¦¿à¦‚
         function formatText(command) {
             document.execCommand(command, false, null);
             document.getElementById('noteEditor').focus();
@@ -1659,7 +291,7 @@
             document.getElementById('noteEditor').focus();
         }
 
-        // ছবি কম্প্রেশন ফাংশন
+        // à¦›à¦¬à¦¿ à¦•à¦®à§à¦ªà§à¦°à§‡à¦¶à¦¨ à¦«à¦¾à¦‚à¦¶à¦¨
         function compressImage(file, maxWidth = 800, quality = 0.7) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -1692,7 +324,7 @@
             });
         }
 
-        // ইমেজ আপলোড হ্যান্ডলিং (কম্প্রেশন সহ)
+        // à¦‡à¦®à§‡à¦œ à¦†à¦ªà¦²à§‹à¦¡ à¦¹à§à¦¯à¦¾à¦¨à§à¦¡à¦²à¦¿à¦‚ (à¦•à¦®à§à¦ªà§à¦°à§‡à¦¶à¦¨ à¦¸à¦¹)
         const imageUpload = document.getElementById('imageUpload');
         const imagePreviewContainer = document.getElementById('imagePreviewContainer');
         
@@ -1713,7 +345,7 @@
                         
                         imagePreviewContainer.appendChild(thumb);
                         
-                        const imgElement = `<img src="${compressedImage}" style="max-width: 100%; border-radius: 10px; margin: 10px 0;" alt="নোট ছবি">`;
+                        const imgElement = `<img src="${compressedImage}" style="max-width: 100%; border-radius: 10px; margin: 10px 0;" alt="à¦¨à§‹à¦Ÿ à¦›à¦¬à¦¿">`;
                         document.getElementById('noteEditor').focus();
                         document.execCommand('insertHTML', false, imgElement);
                     } catch (error) {
@@ -1723,7 +355,7 @@
             }
         });
         
-        // মোডাল ফাংশন
+        // à¦®à§‹à¦¡à¦¾à¦² à¦«à¦¾à¦‚à¦¶à¦¨
         function openModal(imgSrc) {
             document.getElementById('modalImage').src = imgSrc;
             document.getElementById('imageModal').classList.add('show');
@@ -1733,7 +365,7 @@
             document.getElementById('imageModal').classList.remove('show');
         }
         
-        // নোট ম্যানেজমেন্ট
+        // à¦¨à§‹à¦Ÿ à¦®à§à¦¯à¦¾à¦¨à§‡à¦œà¦®à§‡à¦¨à§à¦Ÿ
         let notes = [];
         try {
             const savedNotes = localStorage.getItem('notePadNotes');
@@ -1741,17 +373,17 @@
                 notes = JSON.parse(savedNotes);
             }
         } catch (e) {
-            console.error('নোট লোড করতে সমস্যা:', e);
+            console.error('à¦¨à§‹à¦Ÿ à¦²à§‹à¦¡ à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾:', e);
             notes = [];
         }
         
         let currentNoteIndex = null;
         
-        // সেভ বাটন এনিমেশন হ্যান্ডলিং
+        // à¦¸à§‡à¦­ à¦¬à¦¾à¦Ÿà¦¨ à¦à¦¨à¦¿à¦®à§‡à¦¶à¦¨ à¦¹à§à¦¯à¦¾à¦¨à§à¦¡à¦²à¦¿à¦‚
         const saveButton = document.getElementById('saveNoteBtn');
         let isSaving = false;
         
-        // সেভ বাটন ইভেন্ট
+        // à¦¸à§‡à¦­ à¦¬à¦¾à¦Ÿà¦¨ à¦‡à¦­à§‡à¦¨à§à¦Ÿ
         saveButton.addEventListener('click', function(e) {
             e.preventDefault();
             if (isSaving) return;
@@ -1760,13 +392,13 @@
             const content = document.getElementById('noteEditor').innerHTML.trim();
             
             if (!title) {
-                alert('দয়া করে নোটের শিরোনাম দিন');
+                alert('à¦¦à¦¯à¦¼à¦¾ à¦•à¦°à§‡ à¦¨à§‹à¦Ÿà§‡à¦° à¦¶à¦¿à¦°à§‹à¦¨à¦¾à¦® à¦¦à¦¿à¦¨');
                 document.getElementById('noteTitle').focus();
                 return;
             }
             
             if (!content || content === '<br>' || content === '<div><br></div>') {
-                alert('দয়া করে নোটের বিষয়বস্তু লিখুন');
+                alert('à¦¦à¦¯à¦¼à¦¾ à¦•à¦°à§‡ à¦¨à§‹à¦Ÿà§‡à¦° à¦¬à¦¿à¦·à¦¯à¦¼à¦¬à¦¸à§à¦¤à§ à¦²à¦¿à¦–à§à¦¨');
                 document.getElementById('noteEditor').focus();
                 return;
             }
@@ -1796,7 +428,7 @@
             }, 800);
         });
         
-        // নোট সেভ
+        // à¦¨à§‹à¦Ÿ à¦¸à§‡à¦­
         function saveNote() {
             const title = document.getElementById('noteTitle').value.trim();
             const content = document.getElementById('noteEditor').innerHTML.trim();
@@ -1846,10 +478,10 @@
             
             try {
                 localStorage.setItem('notePadNotes', JSON.stringify(notes));
-                console.log('নোট সেভ হয়েছে:', note);
+                console.log('à¦¨à§‹à¦Ÿ à¦¸à§‡à¦­ à¦¹à§Ÿà§‡à¦›à§‡:', note);
             } catch (e) {
-                console.error('লোকাল স্টোরেজে সেভ করতে সমস্যা:', e);
-                alert('নোট সেভ করতে সমস্যা হচ্ছে। ব্রাউজারের সেটিংস চেক করুন।');
+                console.error('à¦²à§‹à¦•à¦¾à¦² à¦¸à§à¦Ÿà§‹à¦°à§‡à¦œà§‡ à¦¸à§‡à¦­ à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾:', e);
+                alert('à¦¨à§‹à¦Ÿ à¦¸à§‡à¦­ à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾ à¦¹à¦šà§à¦›à§‡à¥¤ à¦¬à§à¦°à¦¾à¦‰à¦œà¦¾à¦°à§‡à¦° à¦¸à§‡à¦Ÿà¦¿à¦‚à¦¸ à¦šà§‡à¦• à¦•à¦°à§à¦¨à¥¤');
                 return false;
             }
             
@@ -1874,25 +506,25 @@
             const updateText = document.querySelector('.update-text');
             
             saveText.innerHTML = `
-                <span style="--i:0">স</span>
-                <span style="--i:1">ে</span>
-                <span style="--i:2">ভ</span>
+                <span style="--i:0">à¦¸</span>
+                <span style="--i:1">à§‡</span>
+                <span style="--i:2">à¦­</span>
             `;
             
             updateText.innerHTML = `
-                <span style="--i:5">স</span>
-                <span style="--i:6">ে</span>
-                <span style="--i:7">ভ</span>
+                <span style="--i:5">à¦¸</span>
+                <span style="--i:6">à§‡</span>
+                <span style="--i:7">à¦­</span>
             `;
         }
         
-        // নোট রেন্ডার
+        // à¦¨à§‹à¦Ÿ à¦°à§‡à¦¨à§à¦¡à¦¾à¦°
         function renderNotes(filter = '') {
             const notesContainer = document.getElementById('notesContainer');
             const emptyState = document.getElementById('emptyNotesState');
             
             if (!notesContainer) {
-                console.error('notesContainer খুঁজে পাওয়া যাচ্ছে না!');
+                console.error('notesContainer à¦–à§à¦à¦œà§‡ à¦ªà¦¾à¦“à§Ÿà¦¾ à¦¯à¦¾à¦šà§à¦›à§‡ à¦¨à¦¾!');
                 return;
             }
             
@@ -1943,7 +575,7 @@
                 }
                 
                 card.innerHTML = `
-                    ${backgroundImage ? `<img class="card-background" src="${backgroundImage}" alt="নোট ছবি">` : ''}
+                    ${backgroundImage ? `<img class="card-background" src="${backgroundImage}" alt="à¦¨à§‹à¦Ÿ à¦›à¦¬à¦¿">` : ''}
                     <div class="card-overlay"></div>
                     <div class="card-content">
                         <div class="card-top">
@@ -1955,7 +587,7 @@
                         </div>
                         <div class="card-actions">
                             <div class="share-button-container">
-                                <button class="card-action-btn share-btn" onclick="event.stopPropagation(); shareNote(${displayIndex})" title="শেয়ার করুন">
+                                <button class="card-action-btn share-btn" onclick="event.stopPropagation(); shareNote(${displayIndex})" title="à¦¶à§‡à§Ÿà¦¾à¦° à¦•à¦°à§à¦¨">
                                     <i class="fas fa-share-alt"></i>
                                 </button>
                                 <div class="share-tooltip">
@@ -1975,13 +607,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="export-icon-btn" onclick="event.stopPropagation(); exportSingleNote(${displayIndex})" title="এক্সপোর্ট করুন">
+                            <button class="export-icon-btn" onclick="event.stopPropagation(); exportSingleNote(${displayIndex})" title="à¦à¦•à§à¦¸à¦ªà§‹à¦°à§à¦Ÿ à¦•à¦°à§à¦¨">
                                 <i class="fas fa-download"></i>
                             </button>
-                            <button class="card-action-btn" onclick="event.stopPropagation(); editNote(${displayIndex})" title="এডিট করুন">
+                            <button class="card-action-btn" onclick="event.stopPropagation(); editNote(${displayIndex})" title="à¦à¦¡à¦¿à¦Ÿ à¦•à¦°à§à¦¨">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="card-action-btn" onclick="event.stopPropagation(); deleteNote(${displayIndex})" title="ডিলিট করুন">
+                            <button class="card-action-btn" onclick="event.stopPropagation(); deleteNote(${displayIndex})" title="à¦¡à¦¿à¦²à¦¿à¦Ÿ à¦•à¦°à§à¦¨">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -1998,12 +630,12 @@
             });
         }
         
-        // সার্চ ফাংশন
+        // à¦¸à¦¾à¦°à§à¦š à¦«à¦¾à¦‚à¦¶à¦¨
         document.getElementById('searchInput').addEventListener('input', function() {
             renderNotes(this.value);
         });
         
-        // নোট দেখা
+        // à¦¨à§‹à¦Ÿ à¦¦à§‡à¦–à¦¾
         function viewNote(index) {
             if (index < 0 || index >= notes.length) return;
             
@@ -2022,82 +654,35 @@
             document.querySelector('[data-target="readPage"]').click();
         }
         
-        // এক্সপোর্ট ফাংশনসমূহ
+        // à¦à¦•à§à¦¸à¦ªà§‹à¦°à§à¦Ÿ à¦«à¦¾à¦‚à¦¶à¦¨à¦¸à¦®à§‚à¦¹
 
-        // ১. একটি নোট এক্সপোর্ট (HTML ফরমেটে)
+        // à§§. à¦à¦•à¦Ÿà¦¿ à¦¨à§‹à¦Ÿ à¦à¦•à§à¦¸à¦ªà§‹à¦°à§à¦Ÿ (HTML à¦«à¦°à¦®à§‡à¦Ÿà§‡)
         function exportSingleNote(index) {
             if (index < 0 || index >= notes.length) {
-                alert('নোট খুঁজে পাওয়া যায়নি!');
+                alert('à¦¨à§‹à¦Ÿ à¦–à§à¦à¦œà§‡ à¦ªà¦¾à¦“à§Ÿà¦¾ à¦¯à¦¾à§Ÿà¦¨à¦¿!');
                 return;
             }
             
             const note = notes[index];
             
-            // HTML কন্টেন্ট তৈরি
+            // HTML à¦•à¦¨à§à¦Ÿà§‡à¦¨à§à¦Ÿ à¦¤à§ˆà¦°à¦¿
             const htmlContent = `
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${note.title} - নোট পেড</title>
+    <title>${note.title} - à¦¨à§‹à¦Ÿ à¦ªà§‡à¦¡</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Noto Sans Bengali', sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f8f9fa;
-            color: #212529;
-        }
-        .note-container {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-        .note-title {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #4361ee;
-        }
-        .note-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e9ecef;
-            color: #6c757d;
-        }
-        .note-content {
-            font-size: 18px;
-            line-height: 1.8;
-        }
-        .note-content img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #e9ecef;
-            color: #6c757d;
-            font-size: 14px;
-        }
-    </style>
+    <link rel="stylesheet" href="./app-redesign.css">
 </head>
 <body>
     <div class="note-container">
         <h1 class="note-title">${note.title}</h1>
         
         <div class="note-meta">
-            <span>তারিখ: ${note.date}</span>
-            <span>সময়: ${note.time}</span>
+            <span>à¦¤à¦¾à¦°à¦¿à¦–: ${note.date}</span>
+            <span>à¦¸à¦®à¦¯à¦¼: ${note.time}</span>
         </div>
         
         <div class="note-content">
@@ -2105,26 +690,26 @@
         </div>
         
         <div class="footer">
-            <p>নোট পেড থেকে এক্সপোর্ট করা হয়েছে</p>
+            <p>à¦¨à§‹à¦Ÿ à¦ªà§‡à¦¡ à¦¥à§‡à¦•à§‡ à¦à¦•à§à¦¸à¦ªà§‹à¦°à§à¦Ÿ à¦•à¦°à¦¾ à¦¹à¦¯à¦¼à§‡à¦›à§‡</p>
             <p>${new Date().toLocaleDateString('bn-BD')} ${new Date().toLocaleTimeString('bn-BD')}</p>
         </div>
     </div>
 </body>
 </html>`;
             
-            // ফাইল ডাউনলোড
+            // à¦«à¦¾à¦‡à¦² à¦¡à¦¾à¦‰à¦¨à¦²à§‹à¦¡
             downloadFile(htmlContent, `${note.title}.html`, 'text/html');
         }
 
-        // ২. সব নোট এক্সপোর্ট (JSON ফরমেটে - ব্যাকআপ)
+        // à§¨. à¦¸à¦¬ à¦¨à§‹à¦Ÿ à¦à¦•à§à¦¸à¦ªà§‹à¦°à§à¦Ÿ (JSON à¦«à¦°à¦®à§‡à¦Ÿà§‡ - à¦¬à§à¦¯à¦¾à¦•à¦†à¦ª)
         function exportAllNotes() {
             if (notes.length === 0) {
-                alert('কোন নোট নেই এক্সপোর্ট করার জন্য!');
+                alert('à¦•à§‹à¦¨ à¦¨à§‹à¦Ÿ à¦¨à§‡à¦‡ à¦à¦•à§à¦¸à¦ªà§‹à¦°à§à¦Ÿ à¦•à¦°à¦¾à¦° à¦œà¦¨à§à¦¯!');
                 return;
             }
             
             const backupData = {
-                appName: 'নোট পেড',
+                appName: 'à¦¨à§‹à¦Ÿ à¦ªà§‡à¦¡',
                 exportDate: new Date().toISOString(),
                 totalNotes: notes.length,
                 notes: notes
@@ -2135,7 +720,7 @@
             downloadFile(jsonContent, `notepad-backup-${date}.json`, 'application/json');
         }
 
-        // ৩. ইমপোর্ট ফাংশন (JSON ব্যাকআপ থেকে)
+        // à§©. à¦‡à¦®à¦ªà§‹à¦°à§à¦Ÿ à¦«à¦¾à¦‚à¦¶à¦¨ (JSON à¦¬à§à¦¯à¦¾à¦•à¦†à¦ª à¦¥à§‡à¦•à§‡)
         function importNotes(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -2147,34 +732,34 @@
                     const importedData = JSON.parse(e.target.result);
                     
                     if (!importedData.notes || !Array.isArray(importedData.notes)) {
-                        alert('ভুল ফরমেটের ফাইল!');
+                        alert('à¦­à§à¦² à¦«à¦°à¦®à§‡à¦Ÿà§‡à¦° à¦«à¦¾à¦‡à¦²!');
                         return;
                     }
                     
-                    if (confirm(`আপনি ${importedData.notes.length}টি নোট ইমপোর্ট করতে চলেছেন। আপনি কি নিশ্চিত?`)) {
-                        // পুরোনো নোটের সাথে নতুন নোট যোগ করুন
+                    if (confirm(`à¦†à¦ªà¦¨à¦¿ ${importedData.notes.length}à¦Ÿà¦¿ à¦¨à§‹à¦Ÿ à¦‡à¦®à¦ªà§‹à¦°à§à¦Ÿ à¦•à¦°à¦¤à§‡ à¦šà¦²à§‡à¦›à§‡à¦¨à¥¤ à¦†à¦ªà¦¨à¦¿ à¦•à¦¿ à¦¨à¦¿à¦¶à§à¦šà¦¿à¦¤?`)) {
+                        // à¦ªà§à¦°à§‹à¦¨à§‹ à¦¨à§‹à¦Ÿà§‡à¦° à¦¸à¦¾à¦¥à§‡ à¦¨à¦¤à§à¦¨ à¦¨à§‹à¦Ÿ à¦¯à§‹à¦— à¦•à¦°à§à¦¨
                         notes = [...importedData.notes, ...notes];
                         
-                        // লোকাল স্টোরেজে সেভ করুন
+                        // à¦²à§‹à¦•à¦¾à¦² à¦¸à§à¦Ÿà§‹à¦°à§‡à¦œà§‡ à¦¸à§‡à¦­ à¦•à¦°à§à¦¨
                         localStorage.setItem('notePadNotes', JSON.stringify(notes));
                         
-                        // রিফ্রেশ করুন
+                        // à¦°à¦¿à¦«à§à¦°à§‡à¦¶ à¦•à¦°à§à¦¨
                         renderNotes();
-                        alert(`${importedData.notes.length}টি নোট সফলভাবে ইমপোর্ট হয়েছে!`);
+                        alert(`${importedData.notes.length}à¦Ÿà¦¿ à¦¨à§‹à¦Ÿ à¦¸à¦«à¦²à¦­à¦¾à¦¬à§‡ à¦‡à¦®à¦ªà§‹à¦°à§à¦Ÿ à¦¹à§Ÿà§‡à¦›à§‡!`);
                     }
                 } catch (error) {
                     console.error('Import error:', error);
-                    alert('ফাইল প্যার্স করতে সমস্যা হচ্ছে!');
+                    alert('à¦«à¦¾à¦‡à¦² à¦ªà§à¦¯à¦¾à¦°à§à¦¸ à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾ à¦¹à¦šà§à¦›à§‡!');
                 }
                 
-                // ফাইল ইনপুট রিসেট
+                // à¦«à¦¾à¦‡à¦² à¦‡à¦¨à¦ªà§à¦Ÿ à¦°à¦¿à¦¸à§‡à¦Ÿ
                 event.target.value = '';
             };
             
             reader.readAsText(file);
         }
 
-        // ৪. সার্ভিস ফাংশন - ফাইল ডাউনলোড
+        // à§ª. à¦¸à¦¾à¦°à§à¦­à¦¿à¦¸ à¦«à¦¾à¦‚à¦¶à¦¨ - à¦«à¦¾à¦‡à¦² à¦¡à¦¾à¦‰à¦¨à¦²à§‹à¦¡
         function downloadFile(content, fileName, mimeType) {
             const blob = new Blob([content], { type: mimeType });
             const url = URL.createObjectURL(blob);
@@ -2187,13 +772,13 @@
             URL.revokeObjectURL(url);
         }
 
-        // ইভেন্ট লিস্টেনার যোগ করুন
+        // à¦‡à¦­à§‡à¦¨à§à¦Ÿ à¦²à¦¿à¦¸à§à¦Ÿà§‡à¦¨à¦¾à¦° à¦¯à§‹à¦— à¦•à¦°à§à¦¨
         document.getElementById('exportAllBtn').addEventListener('click', exportAllNotes);
         document.getElementById('exportNoteBtn').addEventListener('click', () => {
             if (currentNoteIndex !== null) {
                 exportSingleNote(currentNoteIndex);
             } else {
-                alert('প্রথমে একটি নোট সিলেক্ট করুন!');
+                alert('à¦ªà§à¦°à¦¥à¦®à§‡ à¦à¦•à¦Ÿà¦¿ à¦¨à§‹à¦Ÿ à¦¸à¦¿à¦²à§‡à¦•à§à¦Ÿ à¦•à¦°à§à¦¨!');
             }
         });
         
@@ -2203,12 +788,12 @@
         
         document.getElementById('importFile').addEventListener('change', importNotes);
 
-        // শেয়ার ফাংশন
+        // à¦¶à§‡à§Ÿà¦¾à¦° à¦«à¦¾à¦‚à¦¶à¦¨
         function shareNote(index) {
             if (index < 0 || index >= notes.length) return;
             
             const note = notes[index];
-            const text = `নোট: ${note.title}\n\n${note.content.replace(/<[^>]*>/g, '').substring(0, 100)}...`;
+            const text = `à¦¨à§‹à¦Ÿ: ${note.title}\n\n${note.content.replace(/<[^>]*>/g, '').substring(0, 100)}...`;
             
             if (navigator.share) {
                 navigator.share({
@@ -2218,7 +803,7 @@
                 });
             } else {
                 navigator.clipboard.writeText(text);
-                alert('নোট লিংক কপি করা হয়েছে!');
+                alert('à¦¨à§‹à¦Ÿ à¦²à¦¿à¦‚à¦• à¦•à¦ªà¦¿ à¦•à¦°à¦¾ à¦¹à¦¯à¦¼à§‡à¦›à§‡!');
             }
         }
         
@@ -2227,7 +812,7 @@
             
             const note = notes[index];
             const url = encodeURIComponent(window.location.href);
-            const text = encodeURIComponent(`নোট: ${note.title}`);
+            const text = encodeURIComponent(`à¦¨à§‹à¦Ÿ: ${note.title}`);
             window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`, '_blank');
         }
         
@@ -2235,18 +820,18 @@
             if (index < 0 || index >= notes.length) return;
             
             const note = notes[index];
-            const emailSubject = `নোট: ${note.title}`;
+            const emailSubject = `à¦¨à§‹à¦Ÿ: ${note.title}`;
             const emailBody = `
-নোট শিরোনাম: ${note.title}
+à¦¨à§‹à¦Ÿ à¦¶à¦¿à¦°à§‹à¦¨à¦¾à¦®: ${note.title}
 
-তারিখ: ${note.date}
-সময়: ${note.time}
+à¦¤à¦¾à¦°à¦¿à¦–: ${note.date}
+à¦¸à¦®à¦¯à¦¼: ${note.time}
 
-বিষয়বস্তু:
+à¦¬à¦¿à¦·à¦¯à¦¼à¦¬à¦¸à§à¦¤à§:
 ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
 
 ---
-নোট পেড থেকে প্রেরিত
+à¦¨à§‹à¦Ÿ à¦ªà§‡à¦¡ à¦¥à§‡à¦•à§‡ à¦ªà§à¦°à§‡à¦°à¦¿à¦¤
             `.trim();
             
             window.open(`mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`, '_blank');
@@ -2264,11 +849,11 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             if (index < 0 || index >= notes.length) return;
             
             const note = notes[index];
-            const text = encodeURIComponent(`নোট: ${note.title}\n\n${note.content.replace(/<[^>]*>/g, '').substring(0, 100)}...`);
+            const text = encodeURIComponent(`à¦¨à§‹à¦Ÿ: ${note.title}\n\n${note.content.replace(/<[^>]*>/g, '').substring(0, 100)}...`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
         
-        // নোট এডিট
+        // à¦¨à§‹à¦Ÿ à¦à¦¡à¦¿à¦Ÿ
         function editNote(index) {
             if (index < 0 || index >= notes.length) return;
             
@@ -2300,25 +885,25 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             const updateText = document.querySelector('.update-text');
             
             saveText.innerHTML = `
-                <span style="--i:0">আ</span>
-                <span style="--i:1">প</span>
-                <span style="--i:2">ড</span>
-                <span style="--i:3">ে</span>
-                <span style="--i:4">ট</span>
+                <span style="--i:0">à¦†</span>
+                <span style="--i:1">à¦ª</span>
+                <span style="--i:2">à¦¡</span>
+                <span style="--i:3">à§‡</span>
+                <span style="--i:4">à¦Ÿ</span>
             `;
             
             updateText.innerHTML = `
-                <span style="--i:5">আ</span>
-                <span style="--i:6">প</span>
-                <span style="--i:7">ড</span>
-                <span style="--i:8">ে</span>
-                <span style="--i:9">ট</span>
+                <span style="--i:5">à¦†</span>
+                <span style="--i:6">à¦ª</span>
+                <span style="--i:7">à¦¡</span>
+                <span style="--i:8">à§‡</span>
+                <span style="--i:9">à¦Ÿ</span>
             `;
             
             document.querySelector('[data-target="createPage"]').click();
         }
         
-        // নোট আপডেট
+        // à¦¨à§‹à¦Ÿ à¦†à¦ªà¦¡à§‡à¦Ÿ
         function updateNote() {
             if (currentNoteIndex === null || currentNoteIndex < 0 || currentNoteIndex >= notes.length) return false;
             
@@ -2326,7 +911,7 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             const content = document.getElementById('noteEditor').innerHTML.trim();
             
             if (!title || !content || content === '<br>' || content === '<div><br></div>') {
-                alert('শিরোনাম এবং বিষয়বস্তু প্রয়োজন');
+                alert('à¦¶à¦¿à¦°à§‹à¦¨à¦¾à¦® à¦à¦¬à¦‚ à¦¬à¦¿à¦·à¦¯à¦¼à¦¬à¦¸à§à¦¤à§ à¦ªà§à¦°à¦¯à¦¼à§‹à¦œà¦¨');
                 return false;
             }
             
@@ -2372,8 +957,8 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             try {
                 localStorage.setItem('notePadNotes', JSON.stringify(notes));
             } catch (e) {
-                console.error('লোকাল স্টোরেজ আপডেট করতে সমস্যা:', e);
-                alert('নোট আপডেট করতে সমস্যা হচ্ছে।');
+                console.error('à¦²à§‹à¦•à¦¾à¦² à¦¸à§à¦Ÿà§‹à¦°à§‡à¦œ à¦†à¦ªà¦¡à§‡à¦Ÿ à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾:', e);
+                alert('à¦¨à§‹à¦Ÿ à¦†à¦ªà¦¡à§‡à¦Ÿ à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾ à¦¹à¦šà§à¦›à§‡à¥¤');
                 return false;
             }
             
@@ -2387,16 +972,16 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             return true;
         }
         
-        // নোট ডিলিট
+        // à¦¨à§‹à¦Ÿ à¦¡à¦¿à¦²à¦¿à¦Ÿ
         function deleteNote(index) {
             if (index < 0 || index >= notes.length) return;
             
-            if (confirm('আপনি কি এই নোটটি ডিলিট করতে চান?')) {
+            if (confirm('à¦†à¦ªà¦¨à¦¿ à¦•à¦¿ à¦à¦‡ à¦¨à§‹à¦Ÿà¦Ÿà¦¿ à¦¡à¦¿à¦²à¦¿à¦Ÿ à¦•à¦°à¦¤à§‡ à¦šà¦¾à¦¨?')) {
                 notes.splice(index, 1);
                 try {
                     localStorage.setItem('notePadNotes', JSON.stringify(notes));
                 } catch (e) {
-                    console.error('লোকাল স্টোরেজ আপডেট করতে সমস্যা:', e);
+                    console.error('à¦²à§‹à¦•à¦¾à¦² à¦¸à§à¦Ÿà§‹à¦°à§‡à¦œ à¦†à¦ªà¦¡à§‡à¦Ÿ à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾:', e);
                 }
                 renderNotes();
                 
@@ -2408,7 +993,7 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             }
         }
         
-        // রিডার পেজ বাটন ইভেন্ট
+        // à¦°à¦¿à¦¡à¦¾à¦° à¦ªà§‡à¦œ à¦¬à¦¾à¦Ÿà¦¨ à¦‡à¦­à§‡à¦¨à§à¦Ÿ
         document.getElementById('editNoteBtn').addEventListener('click', () => {
             if (currentNoteIndex !== null) {
                 editNote(currentNoteIndex);
@@ -2425,7 +1010,7 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             document.querySelector('[data-target="notesPage"]').click();
         });
         
-        // অ্যাপ ইনিশিয়ালাইজেশন
+        // à¦…à§à¦¯à¦¾à¦ª à¦‡à¦¨à¦¿à¦¶à¦¿à¦¯à¦¼à¦¾à¦²à¦¾à¦‡à¦œà§‡à¦¶à¦¨
         function initApp() {
             renderNotes();
             
@@ -2434,10 +1019,10 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             }
         }
         
-        // অ্যাপ শুরু
+        // à¦…à§à¦¯à¦¾à¦ª à¦¶à§à¦°à§
         initApp();
         
-        // ট্রিপল ক্লিক থিম টগল
+        // à¦Ÿà§à¦°à¦¿à¦ªà¦² à¦•à§à¦²à¦¿à¦• à¦¥à¦¿à¦® à¦Ÿà¦—à¦²
         let clickCount = 0;
         document.addEventListener('click', (e) => {
             if (e.target.closest('.theme-toggle')) return;
@@ -2452,7 +1037,7 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
             }
         });
         
-        // এসকেপ কি প্রেসে মোডাল বন্ধ
+        // à¦à¦¸à¦•à§‡à¦ª à¦•à¦¿ à¦ªà§à¦°à§‡à¦¸à§‡ à¦®à§‹à¦¡à¦¾à¦² à¦¬à¦¨à§à¦§
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeModal();
@@ -2462,3 +1047,5 @@ ${note.content.replace(/<[^>]*>/g, '').substring(0, 500)}...
 </body>
 </html>
 <!-- test -->
+
+
