@@ -58,7 +58,7 @@
             background:
                 radial-gradient(circle at 12% 10%, var(--hero-glow-1), transparent 26%),
                 radial-gradient(circle at 88% 18%, var(--hero-glow-2), transparent 30%),
-                linear-gradient(180deg, var(--light) 0%, color-mix(in srgb, var(--light), #000 3%) 100%);
+                linear-gradient(180deg, var(--light) 0%, #eef1f6 100%);
             color: var(--dark);
             line-height: 1.6;
             transition: var(--transition);
@@ -71,6 +71,7 @@
             color: white;
             padding: 10px 0;
             box-shadow: var(--box-shadow);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -126,7 +127,7 @@
 
         .tabs {
             display: flex;
-            background: color-mix(in srgb, var(--gray-light), transparent 15%);
+            background: rgba(233, 236, 239, 0.88);
             border-radius: var(--border-radius);
             padding: 5px;
             margin-bottom: 15px;
@@ -224,7 +225,7 @@
             display: flex;
             gap: 5px;
             padding: 7px 12px;
-            background: color-mix(in srgb, var(--gray-light), transparent 12%);
+            background: rgba(233, 236, 239, 0.92);
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             flex-wrap: wrap;
             align-items: center;
@@ -703,7 +704,7 @@
             position: sticky;
             top: 140px;
             z-index: 800;
-            background: color-mix(in srgb, var(--light), transparent 5%);
+            background: rgba(248, 249, 250, 0.95);
             padding: 15px 0;
             backdrop-filter: blur(12px);
         }
@@ -713,12 +714,21 @@
             padding: 15px 25px;
             border-radius: var(--border-radius);
             border: 2px solid transparent;
-            background: color-mix(in srgb, var(--gray-light), white 18%);
+            background: #f5f7fb;
             color: var(--dark);
             font-size: 16px;
             font-family: inherit;
             transition: var(--transition);
             box-shadow: 0 10px 25px rgba(31, 41, 55, 0.08);
+        }
+
+
+        [data-theme="dark"] .search-container {
+            background: rgba(18, 18, 18, 0.92);
+        }
+
+        [data-theme="dark"] .search-input {
+            background: #2a2f3a;
         }
 
         .search-input:focus {
